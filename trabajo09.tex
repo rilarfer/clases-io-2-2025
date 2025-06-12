@@ -1,0 +1,163 @@
+\documentclass{article}
+
+% Matemática y símbolos
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Márgenes y geometría de la página
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+% Colores y cajas
+\usepackage{xcolor}
+\usepackage{mdframed}
+
+% Gráficos y diagramas
+\usepackage{tikz}
+\usetikzlibrary{positioning}  % Para posicionamiento relativo en TikZ
+
+% Tablas elegantes y columnas personalizadas
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+
+% Imágenes
+\usepackage{graphicx}
+
+% Estilo de párrafo
+\usepackage{parskip}
+
+% Idioma
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}  % Si no usas UTF-8 nativo
+
+% Captions
+\usepackage{caption}
+
+% Información del documento
+\title{Trabajo 9: Juegos de estrategia y programación lineal}
+\author{Ricardo Largaespada}
+\date{03 de junio 2025}
+
+% Entorno personalizado para problemas
+\newmdenv[
+backgroundcolor=blue!5,
+linecolor=blue,
+linewidth=1pt,
+roundcorner=5pt,
+skipabove=\baselineskip,
+skipbelow=\baselineskip
+]{problem}
+
+\begin{document}
+
+\maketitle
+
+\vspace{-.7cm}
+
+\begin{problem} \textbf{Problema 1: Punto de silla en estrategias puras}
+
+Considere el siguiente juego:
+
+$$
+\begin{array}{c|cccc}
+      & B_1 & B_2 & B_3 & B_4 \\
+\hline
+A_1 & 8 & 6 & 2 & 8 \\
+A_2 & 8 & 9 & 4 & 5 \\
+A_3 & 7 & 5 & 3 & 5
+\end{array}
+$$
+
+Determine el punto de silla y el valor del juego.
+
+\end{problem}
+
+\begin{problem}
+\textbf{Problema 2: Estrategias mixtas en un juego $2\times 4$}
+
+Resuelva gráficamente el siguiente juego. La retribución es para el jugador A:
+
+$$
+\begin{array}{c|cccc}
+      & B_1 & B_2 & B_3 & B_4 \\
+\hline
+A_1 & 2 & 2 & 3 & -1 \\
+A_2 & 4 & 3 & 2 & 6
+\end{array}
+$$
+
+Grafique las rectas correspondientes a las estrategias puras de B y determine la envolvente inferior. Calcule el valor del juego y las estrategias mixtas óptimas.
+
+\end{problem}
+
+\begin{problem}
+\textbf{Problema 3: Resolución de juego $3\times3$ mediante PL}
+
+Considere la siguiente matriz de retribuciones:
+
+$$
+\begin{array}{c|ccc}
+      & B_1 & B_2 & B_3 \\
+\hline
+A_1 & 3 & -1 & -3 \\
+A_2 & -2 & 4 & -1 \\
+A_3 & -5 & -6 & 2
+\end{array}
+$$
+
+Formule y resuelva el modelo de programación lineal para el jugador A. Determine también la solución del modelo dual para el jugador B. Estime el valor del juego y verifique la validez del teorema minimax.
+
+\end{problem}
+
+\begin{problem} \textbf{Problema 4: Juego aplicado a campañas publicitarias}
+
+Dos compañías promueven dos productos competidores. Si ninguna se anuncia, comparten igual el mercado. Si una lanza una campaña más agresiva, la otra pierde parte del mercado.
+
+La encuesta muestra: \textbf{TV (50\%)}, \textbf{Periódico (30\%)}, \textbf{Radio (20\%)}.
+
+\begin{itemize}
+\item[a)] Formule el juego como un juego de suma cero y construya la matriz de pagos.
+\item[b)] Determine un intervalo para el valor del juego y analice si alguna estrategia pura es óptima.
+\end{itemize}
+
+\end{problem}
+
+\begin{problem} \textbf{Problema 5: Estrategias óptimas y valor esperado}
+
+Considere el juego:
+
+$$
+\begin{array}{c|ccc}
+      & B_1 & B_2 & B_3 \\
+\hline
+A_1 & 5 & 50 & 50 \\
+A_2 & 1 & 1 & 0.1 \\
+A_3 & 10 & 1 & 10
+\end{array}
+$$
+
+\begin{itemize}
+\item[a)] Verifique que $x=(\tfrac16, 0, \tfrac56)$ y $y=(\tfrac{49}{54}, \tfrac{5}{54}, 0)$ son estrategias mixtas óptimas.
+\item[b)] Calcule el valor del juego usando la expresión:
+
+$$
+\sum_{i=1}^{3} \sum_{j=1}^{3} a_{ij}x_iy_j
+$$
+\end{itemize}
+
+\end{problem}
+
+\begin{problem}
+\textbf{Problema 6}
+En un juego de apuestas, el jugador A y el jugador B tienen un billete de \$1 y uno de \$5. Cada jugador selecciona uno de los billetes sin que el otro jugador sepa cuál billete eligió. Ambos muestran de forma simultánea el billete que seleccionaron. Si los billetes no coinciden, el jugador A le gana el billete al jugador B. Si los billetes coinciden, el jugador B le gana el billete al jugador A.
+
+\begin{enumerate}
+    \item Elabore una tabla de la teoría de juegos para este juego. Los valores deben expresarse como ganancias (o pérdidas) para el jugador A.
+    \item ¿Existe una estrategia pura? ¿Por qué?
+    \item Determine las estrategias óptimas y el valor de este juego. ¿El juego favorece a un jugador más que al otro?
+    \item Suponga que el jugador B decide desviarse de la estrategia óptima y comienza a jugar cada billete 50\% de las veces. ¿Qué debe hacer el jugador A para mejorar sus ganancias? Comente por qué es importante seguir una estrategia óptima de la teoría de juegos.
+\end{enumerate}
+\end{problem}
+
+\end{document}

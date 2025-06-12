@@ -1,0 +1,133 @@
+\documentclass{article}
+
+% Matemática y símbolos
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Márgenes y geometría de la página
+\usepackage{geometry}
+\geometry{a4paper, margin=1in, bottom=0.5cm}
+
+% Colores y cajas
+\usepackage{xcolor}
+\usepackage{mdframed}
+
+% Gráficos y diagramas
+\usepackage{tikz}
+\usetikzlibrary{positioning}  % Para posicionamiento relativo en TikZ
+
+% Tablas elegantes y columnas personalizadas
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+
+% Imágenes
+\usepackage{graphicx}
+
+% Estilo de párrafo
+\usepackage{parskip}
+
+% Idioma
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}  % Si no usas UTF-8 nativo
+
+% Captions
+\usepackage{caption}
+
+% Información del documento
+\title{Trabajo 6: Sistemas de Colas\\ Papel de la distribución exponencial.\\ 
+Proceso de Nacimiento y muerte. }
+\author{Ricardo Largaespada}
+\date{12 de mayo 2025}
+
+% Entorno personalizado para problemas
+\newmdenv[
+  backgroundcolor=blue!5,
+  linecolor=blue,
+  linewidth=1pt,
+  roundcorner=5pt,
+  skipabove=\baselineskip,
+  skipbelow=\baselineskip
+]{problem}
+
+
+\begin{document}
+
+\maketitle
+
+\vspace{-.7cm}
+\begin{problem}
+Un cliente que llega a un restaurante de comida rápida McBurger dentro de 4 minutos del cliente inmediatamente anterior recibirá 10\% de descuento. Si el tiempo entre llegadas es de entre 4 y 5 minutos, el descuento es de 6\%. Si el tiempo entre llegadas es de más de 5 minutos, el cliente obtiene 2\% de descuento. El tiempo entre llegadas es exponencial con una media de 6 minutos.
+
+\begin{itemize}
+    \item [(a)] Determina la probabilidad de que un cliente reciba 10\% de descuento.
+    \item [(b)] Determina el descuento promedio por cliente que llega.
+\end{itemize}
+
+\end{problem}
+
+\begin{problem}
+Un estudiante recibe un depósito bancario de \$100 al mes desde su casa para que cubra gastos imprevistos. Los retiros de \$20 cada uno ocurren al azar durante el mes y están espaciados de acuerdo con una distribución exponencial con un valor medio de una semana.
+
+\begin{itemize}
+    \item [(a)] Determina la probabilidad de que el estudiante se quede sin dinero para gastos imprevistos antes del final de la cuarta semana.
+\end{itemize}
+\end{problem}
+
+\begin{problem}
+
+En un taller de maquinado, los clientes (órdenes de trabajo) llegan según un proceso de Poisson con una tasa de llegada de 10 órdenes por hora. El tiempo de servicio sigue una distribución exponencial con una tasa de servicio de 12 órdenes por hora.
+
+\begin{itemize}
+    \item [(a)] ¿Qué tipo de proceso de cola es el que describe este sistema?
+    \item [(b)] Calcula la probabilidad de que no haya órdenes esperando.
+    \item [(c)] ¿Cuál es el número promedio de órdenes en cola?
+    \item [(d)] ¿Qué recomendaciones podrías dar para mejorar la eficiencia del sistema?
+\end{itemize}
+\end{problem}
+
+\begin{problem}
+    El tiempo que requiere un mecánico para reparar una máquina tiene una distribución exponencial con media de 4 horas. Sin embargo, una herramienta especial reduciría esta media a 2 horas. Si el mecánico repara una máquina en menos de 2 horas, se le pagan \$100; de otra manera se le pagan \$80. Determina el aumento esperado en el pago del mecánico si usa esta herramienta especial.
+\end{problem}
+\newpage
+
+\begin{problem}
+    \textbf{Sistema de Colas Elegido}
+
+El siguiente análisis debe ser realizado para el sistema de colas que cada estudiante haya seleccionado para su investigación. A continuación, se presentan las preguntas que deben abordar en su trabajo.
+
+\begin{itemize}
+    \item [(1)] \textbf{Identificación del sistema:}
+    \begin{itemize}
+        \item ¿Quién es el \textbf{cliente} y quién es el \textbf{servidor} en el sistema seleccionado?
+        \item ¿El sistema está compuesto por una \textbf{fuente solicitante} finita o infinita?
+        \item ¿Los \textbf{clientes} llegan de manera \textbf{individual} o en \textbf{masa}?
+        \item ¿Qué tipo de \textbf{distribución} sigue el tiempo entre llegadas de los clientes? ¿Es \textbf{probabilística} o \textbf{determinística}?
+        \item ¿El \textbf{tiempo de servicio} sigue una distribución determinística o probabilística? ¿Cómo afecta esto al comportamiento del sistema?
+        \item ¿Cuál es la \textbf{capacidad de la cola} en el sistema? ¿Es \textbf{finita} o \textbf{infinita}?
+    \end{itemize}
+    
+    \item [(2)] \textbf{Análisis teórico del sistema:}
+    \begin{itemize}
+        \item ¿Qué características tendría el sistema si se modelara como un sistema \textbf{M/M/1} u otro tipo de modelo? Explica las diferencias y similitudes.
+        \item ¿Cómo influye el número de \textbf{servidores} (por ejemplo, computadoras, cajeros, máquinas) en el sistema de colas? ¿Qué pasaría si se agregan más servidores?
+        \item ¿Cómo cambia el comportamiento del sistema (por ejemplo, la tasa de ocupación, el tiempo de espera, el número de clientes en la cola) al variar la cantidad de servidores disponibles? Explica cómo el sistema se adapta al aumentar o reducir la cantidad de servidores.
+    \end{itemize}
+    
+    \item [(3)] \textbf{Evaluación de mejoras:}
+    En este apartado, se debe considerar cómo las mejoras propuestas impactarían el sistema seleccionado. Responde a las siguientes preguntas:
+    \begin{itemize}
+        \item Si se aumenta el número de \textbf{servidores}, ¿cómo cambiarían las métricas clave del sistema, como la tasa de ocupación, el número promedio de clientes en el sistema y el tiempo de espera?
+        \item ¿Cómo cambiarían los tiempos de espera en cola y en el sistema al agregar más servidores? ¿Qué implicaciones tendría esto para la eficiencia general del sistema?
+        \item Considerando el modelo de colas que estás utilizando, ¿qué mejoras adicionales podrían implementarse para optimizar el rendimiento del sistema? ¿Cuáles serían los impactos de estas mejoras?
+    \end{itemize}
+    
+    \item [(4)] \textbf{Análisis de las restricciones de capacidad:}
+    En esta sección, se deben explorar los efectos de las restricciones de capacidad en el sistema de colas elegido. Responde a las siguientes preguntas:
+    \begin{itemize}
+        \item Si el número de \textbf{servidores} es limitado (por ejemplo, una cantidad específica de computadoras, cajeros o máquinas), ¿cómo afectaría esto a la capacidad de la cola y al tiempo de espera de los clientes? ¿Qué consecuencias tendría una capacidad de cola limitada?
+        \item ¿Qué sucedería si el número de \textbf{clientes} que pueden ser atendidos por el sistema se ve limitado por factores externos (por ejemplo, un máximo de clientes por hora o restricciones de espacio)? ¿Cómo influiría este límite en la dinámica de las llegadas, la atención a los clientes y el comportamiento de la cola?
+    \end{itemize}
+\end{itemize}
+\end{problem}
+\end{document}

@@ -1,0 +1,74 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage[nosetup]{evan}
+%\usetheme{Goddard}
+\usetheme{Madrid}
+\hypersetup{colorlinks,allcolors=.,urlcolor=magenta}
+\usepackage[table]{xcolor} % Para definir colores en tablas
+\usepackage{graphicx} % Para redimensionar la tabla
+
+\title{Investigación de Operaciones II}
+\subtitle{Unidad 2: Introducción a las Cadenas de Markov\\Cadenas de Markov absorbentes y tiempo de primera pasada}
+\author[Ricardo Largaespada]{Ricardo Jesús Largaespada Fernández}
+\institute[UNI]{Ingeniería de Sistemas, DACTIC, UNI}
+\date{24 de Abril, 2025}
+
+\begin{document}
+\begin{frame}{Inicio (15 min)}  
+\begin{itemize}
+    \item Pregunta detonante + animación de un proceso donde el cliente navega entre servicios  
+          \(\Rightarrow\) llega a un \alert{estado final} (abandono o éxito).
+    \item Cuestiones clave:  
+          \(\bigl\lbrace\)¿Cuánto tarda en llegar? \quad ¿Puede salir del estado final?\(\bigr\rbrace\)
+    \item Se introducen:  
+        \begin{itemize}
+            \item \textit{Estado absorbente}: \(p_{ii}=1\).
+            \item \textit{Tiempo de primera pasada} \(T_{ij}=\min\{n\ge1 : X_n=j\,|\,X_0=i\}\).
+        \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Desarrollo (65 min): “estaciones” en rotación}
+\begin{enumerate}
+    \item \textbf{Estación 1:} localizar estados absorbentes y reordenar la matriz de transición  
+          \[
+              P=\begin{pmatrix}
+                     Q & R\\[2pt]
+                     0 & I
+                 \end{pmatrix}\!.
+          \]
+    \item \textbf{Estación 2:} cálculo del \emph{tiempo esperado de primera pasada}  
+          \[
+              N=(I-Q)^{-1}, \qquad 
+              \bm{t}=N\bm{1}, \qquad 
+              t_i=\sum_{j} n_{ij}.
+          \]
+    \item \textbf{Estación 3:} simulaciones (abandono de cliente, fallo de sistemas…) y toma de decisiones a partir de \(\bm{t}\).
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Cierre (20 min)}  
+\begin{itemize}
+    \item Construcción colectiva de tabla‐resumen:  
+        \(\{\)identificación de absorbentes,\; cálculo y significado de \(T_{ij}\),\; aplicaciones en Ingeniería de Sistemas\(\}\).
+    \item Pregunta abierta (reflexión individual):\\
+          “\emph{¿En qué procesos digitales sería útil conocer el tiempo de absorción o permanencia?}”
+\end{itemize}
+
+\vfill
+\centering
+\scriptsize
+\(\displaystyle
+\text{Matriz clave: } \Pr\!\bigl[T_{ij}<\infty\bigr]=\begin{cases}
+1,&\text{\(j\) absorbente y la cadena es regular},\\
+<1,&\text{caso contrario}.
+\end{cases}
+\)
+\end{frame}
+
+\end{document}
+

@@ -1,0 +1,167 @@
+\documentclass{article}
+
+% Matemática y símbolos
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Márgenes y geometría de la página
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+% Colores y cajas
+\usepackage{xcolor}
+\usepackage{mdframed}
+
+% Gráficos y diagramas
+\usepackage{tikz}
+\usetikzlibrary{positioning}  % Para posicionamiento relativo en TikZ
+
+% Tablas elegantes y columnas personalizadas
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+
+% Imágenes
+\usepackage{graphicx}
+
+% Estilo de párrafo
+\usepackage{parskip}
+
+% Idioma
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}  % Si no usas UTF-8 nativo
+
+% Captions
+\usepackage{caption}
+
+% Información del documento
+\title{Trabajo 10: Toma de Decisiones}
+\author{Ricardo Largaespada}
+\date{10 de junio 2025}
+
+% ---------- Entorno "problema" ----------
+\newenvironment{problem}[1]{%
+  \section*{Problema #1}\addcontentsline{toc}{section}{Problema #1}%
+  \hrule\vspace{0.75em}%
+}{\vspace{0.75em}\hrule}
+
+\begin{document}
+
+\maketitle
+\bigskip
+
+%----------------------------------------------------------------------
+\begin{problem}{15.2-4}
+\textbf{Tema: Criterios sin probabilidades (Maximin, Maximax, Laplace, Regret).}
+
+\begin{center}
+% TODO: Sustituir esta matriz por la del libro
+\begin{tabular}{lccc}
+\toprule
+ & $s_1$ & $s_2$ & $s_3$\\ \midrule
+$A_1$ &  &  &  \\
+$A_2$ &  &  &  \\ 
+$A_3$ &  &  &  \\ \bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+  \item Aplicar el criterio Maximax.  
+  \item Aplicar el criterio Maximin.  
+  \item Aplicar el criterio de Laplace y el de Arrepentimiento (Minimax).  
+\end{enumerate}
+\end{problem}
+
+%----------------------------------------------------------------------
+\begin{problem}{15.2-3}
+\textbf{Tema: Criterio de Bayes (Valor Esperado Monetario).}
+
+% TODO: Pegar aquí tabla de pagos y las probabilidades a priori
+\begin{center}\fbox{Tabla de pagos con $p_j$}\end{center}
+
+\begin{enumerate}
+  \item[\textbf{(b)}] Calcular el VEM de cada alternativa.  
+  \item[\textbf{(c)}] Elegir la mejor alternativa según VEM.  
+  \item[\textbf{(d)}] Analizar cómo cambia la decisión si $p_1$ aumenta a \dots  
+\end{enumerate}
+\end{problem}
+
+%----------------------------------------------------------------------
+\begin{problem}{15.3-1}
+\textbf{Tema: Árbol de decisión simple.}
+
+% TODO: Insertar diagrama del libro o describir las ramas (pagos, probabilidades)
+\vspace{1em}
+\noindent\textit{Instrucciones:} Dibuje el árbol, realice \emph{rollback} y determine la política óptima.
+\end{problem}
+
+%----------------------------------------------------------------------
+\begin{problem}{15.3-3}
+\textbf{Tema: Valor de la información (VEPI/VEI).}
+
+% TODO: Árbol “sin estudio” y árbol “con estudio” con su costo
+\vspace{1em}
+\noindent\textit{Solicitado:}  
+\begin{enumerate}
+  \item Resolver el árbol sin información adicional.  
+  \item Resolver el árbol con información (estudio).  
+  \item Calcular $\text{VEI}$ y comparar con el costo del estudio.  
+\end{enumerate}
+\end{problem}
+
+%----------------------------------------------------------------------
+\begin{problem}{15.2-5}
+\textbf{Tema: Análisis de sensibilidad (probabilidad de ruptura).}
+
+% TODO: Tabla de pagos + probabilidad a variar
+\begin{enumerate}
+  \item Encontrar el valor crítico de $p$ para el cual las alternativas $A_1$ y $A_2$ son indiferentes.  
+  \item Graficar VEM vs.\ $p$ en el intervalo $[0,1]$.  
+\end{enumerate}
+\end{problem}
+
+%----------------------------------------------------------------------
+\begin{problem}{15.6-5}
+\textbf{Tema: Teoría de la utilidad (función exponencial).}
+
+% TODO: Describir lotería, pagos y parámetro $R$
+\begin{enumerate}
+  \item Calcular la utilidad esperada (VEU) de cada alternativa.  
+  \item Determinar el equivalente de certeza.  
+  \item Comparar con la decisión basada en VEM.  
+\end{enumerate}
+\end{problem}
+
+%----------------------------------------------------------------------
+\begin{problem}{15.5-5}
+\textbf{Tema: Modelo de un período (demanda y costos).}
+
+% TODO: Indicar $\theta$, $C_u$, $C_o$ o tabla discreta de demanda
+\begin{enumerate}
+  \item Calcular la cantidad óptima $Q^{*}$.  
+  \item Estimar la utilidad/costo esperado y el nivel de servicio.  
+\end{enumerate}
+\end{problem}
+
+%----------------------------------------------------------------------
+\begin{problem}{15.4-5}
+\textbf{Tema: Árbol multiperíodo / inversión secuencial.}
+
+% TODO: Proporcionar diagrama o tabla de flujos de caja y probabilidades por año
+\vspace{1em}
+Resolver el árbol completo con \emph{rollback}; indicar la estrategia óptima de reinversión o venta.
+\end{problem}
+
+%----------------------------------------------------------------------
+\begin{problem}{15.1-2}
+\textbf{Tema: Factor Rating / AHP resumido.}
+
+% TODO: Incluir pesos de criterios y calificaciones de alternativas
+\begin{enumerate}
+  \item Construir la matriz de ponderaciones y calcular la puntuación compuesta de cada alternativa.  
+  \item Indicar la alternativa preferida.  
+\end{enumerate}
+\end{problem}
+
+%======================================================================
+\end{document}

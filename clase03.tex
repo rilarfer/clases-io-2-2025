@@ -1,0 +1,251 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage[nosetup]{evan}
+\usetheme{Goddard}
+\hypersetup{colorlinks,allcolors=.,urlcolor=magenta}
+\usepackage[table]{xcolor} % Para definir colores en tablas
+\usepackage{graphicx} % Para redimensionar la tabla
+\usepackage{tikz}
+\usepackage[table]{xcolor}
+
+\title{Investigación de Operaciones II}
+\subtitle{Unidad 1: Análisis de Redes}
+\author{Ricardo Jesús Largaespada Fernández}
+\institute{Ingeniería de Sistemas, DACTIC, UNI}
+\date{08 de Marzo, 2025}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Agenda}
+\tableofcontents
+\end{frame}
+
+\section{Sesión 3}
+\begin{frame}
+\frametitle{Sesión 3}
+
+\textbf{Tema}
+\begin{enumerate}
+    \item Métodos de la ruta más corta.
+    \begin{enumerate}
+        \item Algoritmo de Floyd.
+    \end{enumerate}
+\end{enumerate}
+
+\textbf{Objetivo}
+\begin{itemize}
+    \item El estudiante aplicará el Algoritmo de Floyd para encontrar rutas más cortas en grafos ponderados, mediante la resolución de problemas prácticos con matrices de adyacencia, para optimizar trayectorias en redes de transporte, telecomunicaciones y logística.
+\end{itemize}
+
+\end{frame}
+
+\subsection{Algoritmo de Floyd}
+
+\begin{frame}{Algoritmo de Floyd}
+    \textbf{Definición:} El algoritmo de Floyd-Warshall es un método de programación dinámica para encontrar las distancias más cortas entre todos los pares de nodos en un grafo dirigido y ponderado.
+
+    \textbf{Características:}
+    \begin{itemize}
+        \item Permite encontrar las distancias mínimas entre todos los nodos en $O(n^3)$.
+        \item Funciona con pesos negativos pero no con ciclos negativos.
+        \item Se basa en la actualización iterativa de una matriz de distancias.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Operación Triple de Floyd}
+    \begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[>=stealth, node distance=2.5cm]
+        % Nodos
+        \node (i) [circle, draw, minimum size=0.8cm] {$i$};
+        \node (j) [circle, draw, right of=i, xshift=4cm, minimum size=0.8cm] {$j$};
+        \node (k) [circle, draw, above of=i, right of=i, yshift=1.5cm, xshift=2cm, minimum size=0.8cm] {$k$};
+
+        % Aristas
+        \draw[->] (i) -- (j) node[midway, below] {$d_{ij}$};
+        \draw[->, dashed] (i) -- (k) node[midway, above left] {$d_{ik}$};
+        \draw[->, dashed] (k) -- (j) node[midway, above right] {$d_{kj}$};
+    \end{tikzpicture}
+    \caption{Operación triple de Floyd}
+\end{figure}
+\end{frame}
+\begin{frame}{Pasos del Algoritmo de Floyd}
+    \textbf{Paso 1:} Inicializar la matriz de distancias $D$ donde:
+    \begin{itemize}
+        \item $D[i][j]$ es el peso de la arista de $i$ a $j$ si existe.
+        \item Si no hay conexión directa, $D[i][j] = \infty$.
+        \item $D[i][i] = 0$ para todos los nodos.
+    \end{itemize}
+    \textbf{Paso 2:} Iterar sobre todos los nodos intermedios $k$ y actualizar:
+    \[
+    D[i][j] = \min(D[i][j], D[i][k] + D[k][j])
+    \]
+    \textbf{Paso 3:} Repetir hasta actualizar todas las distancias mínimas.
+\end{frame}
+
+\begin{frame}{Ejemplo del Algoritmo de Floyd}
+    \centering
+\begin{tikzpicture}[scale=1]
+    % Nodos
+    \node[circle, draw, minimum size=1cm] (A) at (0,2) {A};
+    \node[circle, draw, minimum size=1cm] (B) at (2,4) {B};
+    \node[circle, draw, minimum size=1cm] (C) at (2,0) {C};
+    \node[circle, draw, minimum size=1cm] (D) at (4,2) {D};
+    
+    % Aristas con pesos
+    \draw[->,bend left] (A) to node[midway, above left] {3} (B);
+    \draw[->, bend right] (A) to node[midway, below right] {7} (D);
+    \draw[->] (B) -- (A) node[midway, above left] {8};
+    \draw[->] (B) -- (C) node[midway, right] {2};
+    \draw[->] (C) -- (A) node[midway, below] {5};
+    \draw[->] (C) -- (D) node[midway, below] {1};
+    \draw[->, bend right] (D) to node[midway, above left] {2} (A);
+\end{tikzpicture}
+    \vspace{0.5cm}
+    \begin{itemize}
+        \item Se actualiza la matriz con cada iteración considerando nodos intermedios.
+        \item Al finalizar, la matriz contiene las distancias más cortas entre todos los pares de nodos.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Iteración 0: Matriz de adyacencia inicial}
+    \centering
+    \begin{tabular}{c|cccc}
+        \hline
+        & A & B & C & D \\
+        \hline
+        A & 0 & 3 & $\infty$ & 7 \\
+        B & 8 & 0 & 2 & $\infty$ \\
+        C & 5 & $\infty$ & 0 & 1 \\
+        D & 2 & $\infty$ & $\infty$ & 0 \\
+        \hline
+    \end{tabular}
+\end{frame}
+
+\begin{frame}{Iteración 1: Considerando nodo 1}
+\begin{center}
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{>{\columncolor{gray!30}}c|>{\columncolor{gray!30}}c c c c}
+    \hline
+    \rowcolor{gray!30} 
+    & A & B & C & D \\
+    \hline
+    A & \cellcolor{gray!50} 0 & \cellcolor{gray!50} 3 & \cellcolor{gray!50} $\infty$ & \cellcolor{gray!50} 7 \\
+    B & \cellcolor{gray!50} 8 & \cellcolor{gray!50} 0 & 2 & $\infty$ \\
+    C & \cellcolor{gray!50} 5 & $\infty$ & \cellcolor{gray!50} 0 & 1 \\
+    D & \cellcolor{gray!50} 2 & $\infty$ & $\infty$ & \cellcolor{gray!50} 0 \\
+    \hline
+    \end{tabular}\\
+\vspace{.05cm}
+    \begin{tabular}{c|cccc}
+        \hline
+        & A & B & C & D \\
+        \hline
+        A & 0 & 3 & $\infty$ & 7 \\
+        B & 8 & 0 & 2 & \cellcolor{gray!50} 15 \\
+        C & 5 & \cellcolor{gray!50}8 & 0 & 1 \\
+        D & 2 & \cellcolor{gray!50}5 & $\infty$ & 0 \\
+        \hline
+    \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Iteración 2: Considerando nodo 2}
+\begin{center}
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{>{\columncolor{gray!30}}c|c c c c}
+    \hline
+    \rowcolor{gray!30} 
+    & A & B & C & D \\
+    \hline
+    A & \cellcolor{gray!50} 0 & \cellcolor{gray!50}3 &  $\infty$ & 7 \\
+    B & \cellcolor{gray!50} 8 & \cellcolor{gray!50} 0 &\cellcolor{gray!50} 2 &\cellcolor{gray!50} 15 \\
+    C & 5 & \cellcolor{gray!50}8 & \cellcolor{gray!50} 0 & 1 \\
+    D & 2 & \cellcolor{gray!50}5 & $\infty$ & \cellcolor{gray!50} 0 \\
+    \hline
+    \end{tabular}\\
+\vspace{.05cm}
+    \begin{tabular}{c|cccc}
+        \hline
+        & A & B & C & D \\
+        \hline
+        A & 0 & 3 & \cellcolor{gray!50}5 & 7 \\
+        B & 8 & 0 & 2 & 15 \\
+        C & 5 & 8 & 0 & 1 \\
+        D & 2 & 5 & \cellcolor{gray!50}7 & 0 \\
+        \hline
+    \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Iteración 3: Considerando nodo 3}
+\begin{center}
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{>{\columncolor{gray!30}}c|c c c c}
+    \hline
+    \rowcolor{gray!30} 
+    & A & B & C & D \\
+    \hline
+    A & \cellcolor{gray!50} 0 & 3 &  \cellcolor{gray!50}5 & 7 \\
+    B & 8 & \cellcolor{gray!50} 0 &\cellcolor{gray!50} 2 & 15 \\
+    C & \cellcolor{gray!50}5 & \cellcolor{gray!50}8 & \cellcolor{gray!50} 0 & \cellcolor{gray!50} 1 \\
+    D & 2 & 5 & \cellcolor{gray!50}7 & \cellcolor{gray!50} 0 \\
+    \hline
+    \end{tabular}\\
+\vspace{.05cm}
+    \begin{tabular}{c|cccc}
+        \hline
+        & A & B & C & D \\
+        \hline
+        A & 0 & 3 & 5 & \cellcolor{gray!50}6 \\
+        B & \cellcolor{gray!50}7 & 0 & 2 & \cellcolor{gray!50}3 \\
+        C & 5 & 8 & 0 & 1 \\
+        D & 2 & 5 & 7 & 0 \\
+        \hline
+    \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Iteración 4: Considerando nodo 4}
+\begin{center}
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{>{\columncolor{gray!30}}c|c c c c}
+    \hline
+    \rowcolor{gray!30} 
+    & A & B & C & D \\
+    \hline
+    A & \cellcolor{gray!50} 0 & 3 &  5 & \cellcolor{gray!50}6 \\
+    B & 7 & \cellcolor{gray!50} 0 & 2 & \cellcolor{gray!50}3 \\
+    C & 5 & 8 & \cellcolor{gray!50} 0 & \cellcolor{gray!50} 1 \\
+    D & \cellcolor{gray!50}2 & \cellcolor{gray!50}5 & \cellcolor{gray!50}7 & \cellcolor{gray!50} 0 \\
+    \hline
+    \end{tabular}\\
+\vspace{.05cm}
+    \begin{tabular}{c|cccc}
+        \hline
+        & A & B & C & D \\
+        \hline
+        A & 0 & 3 & 5 & 6 \\
+        B & \cellcolor{gray!50}5 & 0 & 2 & 3 \\
+        C & \cellcolor{gray!50}3 & \cellcolor{gray!50}6 & 0 & 1 \\
+        D & 2 & 5 & 7 & 0 \\
+        \hline
+    \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Conclusión}
+    \begin{itemize}
+        \item El algoritmo de Floyd-Warshall permite encontrar la ruta más corta entre todos los pares de nodos de manera eficiente.
+        \item Su complejidad es $O(n^3)$, lo que lo hace adecuado para grafos de tamaño moderado.
+        \item Es útil en redes de comunicación, planificación de rutas y análisis de redes.
+    \end{itemize}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,87 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{parskip}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{lmodern}
+
+\begin{document}
+
+\noindent
+\textbf{La vida está llena de conflictos y competencia.} Los numerosos ejemplos que involucran adversarios en conflicto incluyen juegos de mesa, combates militares, campañas políticas, competencias deportivas, campañas de publicidad y comercialización en las competencias de empresas, entre otros. Una característica básica en muchas de estas situaciones es que el resultado final depende, en primer lugar, de la combinación de estrategias seleccionadas por los adversarios. La teoría de juegos es una teoría matemática que estudia las características generales de situaciones competitivas de manera formal y abstracta. Además, otorga una importancia especial a los procesos de toma de decisiones de los adversarios.
+
+Debido a que los escenarios de competencia son algo muy común en la actualidad, la teoría de juegos tiene aplicaciones en una gran variedad de áreas, dentro de las cuales se incluyen los negocios y la economía. Por ejemplo, la referencia seleccionada 3 presenta varias aplicaciones de negocios de la teoría de juegos y la referencia seleccionada 1 se enfoca en sus aplicaciones a la economía. El premio Nobel en Economía de 1994 le fue otorgado a John F. Nash, Jr. (cuya biografía se relata en la película \textit{A Beautiful Mind}), John C. Harsanyi y Reinhard Selton por su análisis de equilibrio en la teoría de juegos no cooperativos.
+
+\begin{table}[h!]
+\centering
+\caption*{\textbf{TABLA 14.1} \quad Matriz de pagos del juego de pares y nones}
+\begin{tabular}{c>{\centering\arraybackslash}m{1.5cm}>{\centering\arraybackslash}m{1.5cm}}
+\toprule
+\textbf{Estrategia} & \multicolumn{2}{c}{\textbf{Jugador 2}} \\
+\cmidrule(lr){2-3}
+\textbf{Jugador 1} & \textbf{1} & \textbf{2} \\
+\midrule
+1 & 1 & $-1$ \\
+2 & $-1$ & 1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent
+En general, un juego de dos personas se caracteriza por
+
+\begin{enumerate}
+    \item Las estrategias del jugador 1.
+    \item Las estrategias del jugador 2.
+    \item La matriz de pagos.
+\end{enumerate}
+
+Antes de iniciar el juego, cada jugador conoce las estrategias de que dispone, las que tiene su oponente y la matriz de pagos. Una jugada real consiste en que los dos jugadores elijan al mismo tiempo una estrategia sin saber cuál es la elección de su oponente.
+
+Una estrategia puede constituir una acción sencilla, como mostrar un número par o non de dedos en el juego de pares y nones. Por otro lado, en juegos más complicados que llevan en sí una serie de movimientos, una \textbf{estrategia} es una regla predeterminada que especifica por completo cómo se intenta responder a cada circunstancia posible en cada etapa del juego. Por ejemplo, una estrategia de un jugador de ajedrez indica cómo hacer el siguiente movimiento ante \textit{todas} las posiciones posibles en el tablero, por lo que el número total de estrategias posibles sería astronómico. Las aplicaciones de la teoría de juegos involucran situaciones competitivas mucho menos complicadas que el ajedrez, pero las estrategias que se manejan pueden llegar a ser bastante complejas.
+
+Por lo general, la \textbf{matriz de pagos} muestra la ganancia (positiva o negativa) del jugador 1, que resultaría con cada combinación de estrategias de los dos jugadores. Se presenta sólo la matriz del jugador 1, puesto que la del jugador 2 es el negativo de ésta, debido a la naturaleza de suma cero del juego.
+
+Los elementos de la matriz de pagos pueden expresar cualquier tipo de unidades, como dólares, siempre que representen con exactitud la \textit{utilidad} del jugador 1 ante el resultado correspondiente. Debe hacerse hincapié en que la utilidad no necesariamente es proporcional a la cantidad de dinero (o cualquier otro bien) cuando se manejan cantidades grandes. Por ejemplo, 2 millones de dólares (después de impuestos) pueden tener un valor mucho menor que “el doble” del valor que representa 1 millón de dólares para una persona pobre. En otras palabras, si a una persona se le da a elegir entre: 1) recibir, con 50\% de posibilidades, 2 millones o nada y 2) recibir 1 millón con seguridad, una persona pobre tal vez preferiría la última oferta. En otras palabras, el resultado que corresponde a un elemento con valor 2 en una matriz de pagos debe “valer el doble” para el jugador 1 que el resultado correspondiente a un elemento de 1. Así, dada la elección, debe serle indiferente 50\% de posibilidades de recibir el primer resultado (en lugar de nada) y recibir en definitiva el último resultado.\footnote{Este tipo de razonamiento es central en la teoría de la utilidad esperada.}
+
+Un objetivo primordial de la teoría de juegos es desarrollar criterios racionales para seleccionar una estrategia, los cuales implican dos supuestos importantes:
+
+\begin{enumerate}
+    \item \textbf{Ambos} jugadores son \textit{racionales}.
+    \item \textbf{Ambos} jugadores eligen sus estrategias sólo para \textit{promover su propio bienestar} (sin compasión para el oponente).
+\end{enumerate}
+
+La teoría de juegos se contrapone al \textit{análisis de decisión} (vea el capítulo 15), en donde se hace el supuesto de que el tomador de decisiones está jugando un juego contra un oponente pasivo —la naturaleza— que elige sus estrategias de alguna manera aleatoria.
+
+En este capítulo se desarrollará el criterio estándar de la teoría de juegos para elegir las estrategias mediante ejemplos ilustrativos. En particular, al final de la siguiente sección se describe la forma en que la teoría de juegos dice cómo debe jugarse el juego de pares y nones. (Los problemas 14.3-1, 14.4-1 y 14.5-1 lo invitan también a aplicar las técnicas desarrolladas en este capítulo para encontrar la forma óptima de acometer este juego.) Además, la sección siguiente presenta un ejemplo prototipo que ilustra la formulación de un juego y su solución en algunas situaciones sencillas. Después, en la sección 14.3, se desarrollará una variación más complicada de este juego para obtener un criterio más general. En las secciones 14.4 y 14.5 se describe un procedimiento gráfico y una formulación de programación lineal para juegos de este tipo.
+
+
+\section*{14.2 \quad SOLUCIÓN DE JUEGOS SENCILLOS: EJEMPLO PROTOTIPO}
+
+Dos empresas tecnológicas compiten por el liderazgo en el lanzamiento de sus nuevos productos. En este momento elaboran sus planes de mercadeo para los dos últimos días antes del lanzamiento oficial; se espera que dichos días sean cruciales debido a que están muy próximos al evento. Por esta circunstancia, ambas quieren emplearlos para realizar campañas de promoción en dos ciudades importantes: Tecnópolis y Digitalia. Para evitar pérdidas de tiempo, planean viajar en la noche y pasar un día completo en cada ciudad o dos días en sólo una de ellas. Como deben hacer los arreglos necesarios por adelantado, ninguna de las dos conocerá lo que su competidora tiene planeado hacer hasta después de concretar sus propios planes. Cada empresa tiene un gerente de marketing en cada ciudad para asesorarlo sobre el efecto que tendrán (en términos de clientes ganados o perdidos) las combinaciones posibles de los días dedicados a cada ciudad por ellas o por sus competidoras. Por tanto, quieren emplear esta información para elegir su mejor estrategia para estos dos días.
+
+\subsection*{Formulación como un juego de dos personas y suma cero}
+
+Para formular este problema como un juego de dos personas y suma cero se deben identificar los \textit{dos jugadores} (obviamente, las dos empresas), las \textit{estrategias} de cada una de ellas y la \textit{matriz de pagos}.
+
+Según la forma en que se estableció el problema, cada jugador tiene tres estrategias:
+
+\begin{itemize}
+    \item Estrategia 1 = pasar un día en cada ciudad.
+    \item Estrategia 2 = pasar los dos días en Tecnópolis.
+    \item Estrategia 3 = pasar los dos días en Digitalia.
+\end{itemize}
+
+Por el contrario, las estrategias serían más complicadas en una situación diferente en la que cada empresa supiera en dónde pasará su competidora el primer día antes de concluir sus propios planes para el segundo día. En ese caso, una estrategia normal sería: pasar el primer día en Tecnópolis; si el oponente también pasa el día en Tecnópolis, entonces quedarse el segundo día en esa ciudad; sin embargo, si el oponente pasa el primer día en Digitalia, entonces sería necesario pasar el segundo día en ese lugar. Habría ocho estrategias de ese tipo, una para cada combinación de las dos posibilidades para el primer día, las dos para el primer día del oponente y las dos elecciones para el segundo día.
+
+Cada elemento de la matriz de pagos del jugador 1 representa la \textit{utilidad} para ese jugador (o la utilidad negativa para el jugador 2) de los resultados que se obtienen cuando los dos jugadores emplean las estrategias correspondientes. Desde el punto de vista de las empresas, el objetivo es \textit{ganar clientes} y cada voto adicional (antes de conocer el resultado de las elecciones) tiene el mismo valor para él. Entonces, los elementos apropiados de la matriz de pagos se darán en términos del \textit{total neto de clientes ganados} a su oponente (esto es, la suma de la cantidad neta de clientes de cada ciudad) que resulte de estos dos días de campaña. Con unidades de 1,000 clientes, esta formulación se resume en la tabla 14.2. La teoría de juegos supone que ambos jugadores usan la misma formulación (incluso los mismos pagos para el jugador 1) para elegir sus estrategias.
+
+Sin embargo, también debe hacerse notar que esta suposición puede no ser apropiada si se contara con información adicional. En particular, suponga que se conoce con exactitud cuáles son los planes de votación de los consumidores de ambas ciudades para esos días, de manera que cada político sabe la cantidad neta
+
+\end{document}

@@ -1,0 +1,310 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\usetikzlibrary{arrows,calc,positioning}
+%\usetheme{Goddard}
+\usetheme{Madrid}
+\hypersetup{colorlinks,allcolors=.,urlcolor=magenta}
+\usepackage{listings}
+\lstset{
+    language=Matlab,
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    frame=single,
+    columns=flexible
+}
+
+\title{Investigación de Operaciones II}
+\subtitle{Unidad 3: Fundamentos de la Teoría de Colas}
+\author[RL]{Ricardo Jesús Largaespada Fernández}
+\institute[UNI]{Ingeniería de Sistemas, DACTIC, UNI}
+\date{19 de Mayo, 2025}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% --- Introducci\'on ---
+
+\section*{Introducci\'on}
+
+\begin{frame}{Motivación: Más allá de los modelos exponenciales}
+  \begin{itemize}
+    \item La mayoría de los modelos clásicos de teoría de colas suponen que:
+    \begin{itemize}
+      \item los tiempos entre llegadas siguen una distribución exponencial, y \pause
+      \item los tiempos de servicio también son exponenciales. \pause
+    \end{itemize}
+
+    \item No obstante, en muchos sistemas reales estas suposiciones no se cumplen: \pause
+    \begin{itemize}
+      \item Las llegadas pueden estar programadas o controladas. \pause
+      \item Los tiempos de servicio pueden ser constantes o tener baja variabilidad. \pause
+    \end{itemize}
+
+    \item En estos casos, es necesario utilizar modelos más generales que permitan otras distribuciones. \pause
+
+    \item Estos modelos permiten un análisis más realista del desempeño del sistema y una mejor toma de decisiones operacionales.
+  \end{itemize}
+\end{frame}
+
+
+% --- M/G/1 ---
+
+\section*{Modelo M/G/1}
+
+\begin{frame}{Modelo \texorpdfstring{$M/G/1$}{M/G/1}}
+  \begin{itemize}
+    \item El modelo $M/G/1$ describe un sistema de colas con las siguientes características: \pause
+    \begin{itemize}
+      \item Llegadas al sistema según un proceso de Poisson con tasa \( \lambda \). \pause
+      \item Un único servidor. \pause
+      \item Tiempos de servicio con distribución general (no necesariamente exponencial). \pause
+    \end{itemize}
+
+    \item A diferencia del modelo \( M/M/1 \), aquí no se impone una forma específica para la distribución del servicio. \pause
+
+    \item Es suficiente conocer dos parámetros fundamentales del tiempo de servicio: \pause
+    \begin{itemize}
+      \item La media: \( \mathbb{E}[S] = 1/\mu \). \pause
+      \item La varianza: \( \sigma^2 = \mathrm{Var}(S) \). \pause
+    \end{itemize}
+    
+    \item La generalidad del modelo permite representar con mayor fidelidad diversos entornos reales de atención al cliente.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Resultados del modelo \texorpdfstring{$M/G/1$}{M/G/1} (I)}
+  Bajo condiciones de estabilidad (\( \rho = \lambda/\mu < 1 \)), se tiene:
+
+  \pause
+  \[
+  L_q = \frac{\lambda^2 \sigma^2 + \rho^2}{2(1 - \rho)}
+  \]
+
+  \pause
+  Esta expresión se conoce como la \textbf{fórmula de Pollaczek–Khinchine}. Involucra:
+  \begin{itemize}
+    \item \( \sigma^2 \): varianza del tiempo de servicio.
+    \item \( \rho = \lambda/\mu \): utilización del sistema.
+  \end{itemize}
+  \pause
+  Refleja cómo la variabilidad y la carga del sistema afectan la longitud promedio de la cola.
+\end{frame}
+
+\begin{frame}{Resultados del modelo \texorpdfstring{$M/G/1$}{M/G/1} (II)}
+  A partir de \( L_q \), se obtienen las métricas restantes:
+
+  \pause
+  \begin{align*}
+    L &= L_q + \rho \\[1ex] \pause
+    W_q &= \frac{L_q}{\lambda} \\[1ex] \pause
+    W &= W_q + \frac{1}{\mu}
+  \end{align*}
+
+  \pause
+  \begin{itemize}
+    \item \( L \): número promedio de clientes en el sistema.
+    \item \( W_q \): tiempo promedio en espera.
+    \item \( W \): tiempo total promedio en el sistema.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Impacto de la varianza en el modelo \texorpdfstring{$M/G/1$}{M/G/1}}
+  \begin{itemize}
+    \item La varianza \( \sigma^2 \) del tiempo de servicio es un parámetro crítico en el modelo \( M/G/1 \). \pause
+
+    \item A mayor \( \sigma^2 \), mayor incertidumbre en los tiempos de atención, lo cual incrementa la congestión del sistema. \pause
+
+    \item En la fórmula de Pollaczek--Khinchine:
+    \[
+    L_q = \frac{\lambda^2 \sigma^2 + \rho^2}{2(1 - \rho)}
+    \]
+    se observa que \( L_q \) crece linealmente con \( \sigma^2 \). \pause
+
+    \item Caso límite: si \( \sigma^2 = 0 \) (tiempo de servicio constante), se obtiene el modelo determinista \( M/D/1 \), donde la cola es más corta. \pause
+
+    \item Por tanto, reducir la variabilidad mejora el rendimiento del sistema sin necesidad de aumentar servidores o modificar tasas.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Efecto de la varianza en \texorpdfstring{$L_q$}{Lq}}
+
+  \textbf{Supuestos:}
+  \begin{itemize}
+    \item Tasa de llegada: \( \lambda = 4 \) clientes/hora
+    \item Tasa de servicio: \( \mu = 5 \) clientes/hora
+    \item Utilización: \( \rho = \lambda / \mu = 0.8 \)
+  \end{itemize}
+
+  \vspace{0.5em}
+  \begin{center}
+    \begin{tikzpicture}
+      \begin{axis}[
+        width=8cm, height=4cm,
+        xlabel={$\sigma^2$ (varianza del tiempo de servicio)},
+        ylabel={$L_q$ (clientes en cola)},
+        grid=major,
+        axis lines=left,
+        domain=0:1,
+        samples=100,
+        thick,
+        enlargelimits=true,
+        legend style={at={(0.97,0.97)}, anchor=north east, font=\small}
+      ]
+        \addplot[blue] expression{(4^2 * x + 0.8^2)/(2*(1 - 0.8))};
+        \addlegendentry{$L_q = \frac{\lambda^2 \sigma^2 + \rho^2}{2(1 - \rho)}$}
+      \end{axis}
+    \end{tikzpicture}
+  \end{center}
+
+  \pause
+  \begin{itemize}
+    \item \( \sigma^2 = 0 \): modelo determinista \( M/D/1 \)
+    \item \( \sigma^2 = 0.04 \): modelo exponencial \( M/M/1 \)
+    \item A medida que \( \sigma^2 \) crece, \( L_q \) también aumenta: más variabilidad → más congestión
+  \end{itemize}
+\end{frame}
+
+% --- Modelo M/D/1 ---
+
+\section*{Modelo M/D/1}
+
+\begin{frame}{Modelo \texorpdfstring{$M/D/1$}{M/D/1}}
+  \begin{itemize}
+    \item Supone llegadas al sistema según un proceso de Poisson con tasa \( \lambda \). \pause
+
+    \item El tiempo de servicio es constante: todos los clientes tardan exactamente \( 1/\mu \) en ser atendidos. \pause
+
+    \item Es un caso particular del modelo \( M/G/1 \) con varianza \( \sigma^2 = 0 \). \pause
+
+    \item La fórmula de espera en cola es:
+    \[
+    L_q = \frac{\rho^2}{2(1 - \rho)}
+    \] \pause
+
+    \item Comparado con el modelo \( M/M/1 \), este valor es exactamente la mitad:
+    \[
+    L_q^{(M/D/1)} = \frac{1}{2} L_q^{(M/M/1)}
+    \]
+  \end{itemize}
+\end{frame}
+
+% --- Modelo M/E_k/1 ---
+
+\section*{Modelo M/E$_k$/1}
+
+\begin{frame}{Modelo \texorpdfstring{$M/E_k/1$}{M/Ek/1}}
+  \begin{itemize}
+    \item En este modelo, los tiempos de servicio siguen una distribución \textbf{Erlang} de orden \( k \). \pause
+
+    \item Se interpreta como la suma de \( k \) fases exponenciales con parámetro \( k\mu \), es decir:
+    \[
+    S = \sum_{i=1}^{k} \text{Exp}(k\mu) \quad \Rightarrow \quad \mathbb{E}[S] = \frac{1}{\mu}, \quad \sigma = \frac{1}{\sqrt{k} \mu}
+    \] \pause
+
+    \item Este modelo permite ajustar la variabilidad del servicio:
+    \begin{itemize}
+      \item \( k = 1 \): se obtiene la exponencial → modelo \( M/M/1 \) \pause
+      \item \( k \to \infty \): se aproxima a servicio constante → modelo \( M/D/1 \) \pause
+    \end{itemize}
+
+    \item Cuanto mayor es \( k \), menor es la variabilidad. \pause
+
+    \item El modelo \( M/E_k/1 \) es útil para representar servicios moderadamente regulares, como estaciones automáticas o procesos semiautomatizados.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Resultados M/E$_k$/1}
+\begin{align*}
+L_q &= \frac{1 + k}{2k} \cdot \frac{\lambda^2}{\mu(\mu - \lambda)}, \\
+W_q &= \frac{1 + k}{2k} \cdot \frac{\lambda}{\mu(\mu - \lambda)}.
+\end{align*}
+\[
+W = W_q + \frac{1}{\mu}, \quad L = \lambda W
+\]
+\end{frame}
+
+% --- Sin entradas de Poisson ---
+
+\begin{frame}{Modelos sin entradas de Poisson}
+  \begin{itemize}
+    \item Hasta ahora, hemos supuesto que las llegadas al sistema siguen un proceso de Poisson (interarribos exponenciales). \pause
+
+    \item Sin embargo, en muchos contextos reales:
+    \begin{itemize}
+      \item Las llegadas están programadas (p. ej., producción en línea). \pause
+      \item Ocurre control o regulación externa del flujo. \pause
+    \end{itemize}
+
+    \item En estos casos, se rompe el supuesto de aleatoriedad en los interarribos. \pause
+
+    \item Esto da lugar a modelos donde la distribución de llegadas es \textbf{determinista} o \textbf{general}, pero el servicio sigue siendo exponencial. \pause
+
+    \item Ejemplos representativos:
+    \begin{itemize}
+      \item \( D/M/1 \): llegadas deterministas \pause
+      \item \( E_k/M/s \): llegadas Erlang \pause
+      \item \( G/M/s \): llegadas con distribución general
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Modelos con llegadas no Poisson}
+  \begin{itemize}
+    \item \textbf{\( G/M/s \)}: \pause
+    \begin{itemize}
+      \item Llegadas con distribución general. \pause
+      \item Servicio exponencial con \( s \) servidores. \pause
+      \item Modelo flexible pero difícil de resolver analíticamente. \pause
+    \end{itemize}
+
+    \item \textbf{\( D/M/1 \)}: \pause
+    \begin{itemize}
+      \item Llegadas ocurren a intervalos fijos y regulares. \pause
+      \item Servicio exponencial. \pause
+      \item Ideal para sistemas automatizados con producción sincronizada. \pause
+    \end{itemize}
+
+    \item \textbf{\( E_k/M/s \)}: \pause
+    \begin{itemize}
+      \item Los tiempos entre llegadas siguen una distribución Erlang. \pause
+      \item Permite controlar la variabilidad mediante el parámetro \( k \). \pause
+      \item Se comporta como un punto intermedio entre \( D/M/s \) y \( M/M/s \).
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% --- Otros modelos ---
+
+\begin{frame}{Modelos con distribuciones complejas}
+  \begin{itemize}
+    \item \textbf{Distribución hiperexponencial:} \pause
+    \begin{itemize}
+      \item Es una combinación probabilística de dos o más distribuciones exponenciales con diferentes tasas. \pause
+      \item Tiene mayor desviación estándar que una exponencial individual. \pause
+      \item Útil para modelar escenarios con alta variabilidad: algunas tareas son rápidas, otras muy lentas. \pause
+    \end{itemize}
+
+    \item \textbf{Distribuciones tipo fase:} \pause
+    \begin{itemize}
+      \item Generalizan la Erlang: combinan varias fases exponenciales en serie, en paralelo o de forma mixta. \pause
+      \item Pueden ajustarse con alta precisión a datos empíricos. \pause
+      \item Se modelan mediante cadenas de Markov de tiempo continuo. \pause
+      \item Incluyen como casos particulares: exponencial, Erlang, e hiperexponencial. \pause
+    \end{itemize}
+
+    \item Estos modelos permiten representar servicios complejos o variables sin renunciar al marco de Markov.
+  \end{itemize}
+\end{frame}
+
+\end{document}

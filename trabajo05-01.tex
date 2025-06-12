@@ -1,0 +1,341 @@
+% ==========================================================
+%  Cadenas de Markov absorbentes  –  Ejercicios y soluciones
+% ==========================================================
+\documentclass[11pt,spanish]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage{amsmath, amssymb, bm, amsthm}
+\usepackage{enumitem}      %  listas ajustadas
+\usepackage{geometry}      %  márgenes cómodos
+\usepackage{hyperref}
+\usepackage{mathtools}
+
+\geometry{left=3cm,right=3cm,top=2.8cm,bottom=3cm}
+\setlength{\parskip}{4pt}
+
+\title{\large\bfseries Banco de problemas\\[2pt]
+        {\normalsize Cadenas de Markov absorbentes y tiempo de primera pasada}}
+\author{}
+\date{}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+
+\begin{document}
+\maketitle
+
+\section*{Ejercicios}
+
+\subsection*{Sección A — Calentamiento conceptual}
+\begin{enumerate}[label=\textbf{A.\arabic*}]
+  \item (V/F, razona)  
+        \begin{enumerate}[label=\alph*)]
+          \item Si un estado \(i\) cumple \(p_{ii}=1\), toda la cadena es absorbente.  
+          \item Para una cadena con al menos un estado absorbente se cumple
+                \(\E[T_{ij}]<\infty\) para todo par \((i,j)\).
+        \end{enumerate}
+
+  \item Identifica estados absorbentes y reordena cada matriz en forma canónica \(P=\begin{psmallmatrix}Q&R\\0&I\end{psmallmatrix}\).  
+        \[
+          P_{1}=\begin{pmatrix}
+                  0.3 & 0.7 & 0   \\
+                  0   & 0.6 & 0.4 \\
+                  0   & 0   & 1
+                \end{pmatrix},
+          \qquad
+          P_{2}=\begin{pmatrix}
+                  0.2 & 0.6 & 0.2\\
+                  0.1 & 0.9 & 0  \\
+                  0   & 0   & 1
+                \end{pmatrix}.
+        \]
+
+  \item Propiedad de “no retorno”.  
+        Demuestra que, si \(j\) es absorbente, entonces
+        \(\Prob[X_n=j \text{ infinitas veces}\mid X_0=j]=1\).
+\end{enumerate}
+
+\subsection*{Sección B — Cómputo y análisis numérico}
+\begin{enumerate}[label=\textbf{B.\arabic*}]
+  \item (Matriz fundamental)  
+        El sub-bloque transitorio es
+        \[
+          Q=\begin{pmatrix}
+                0.5 & 0.4 & 0  \\
+                0.2 & 0.6 & 0.1\\
+                0   & 0.3 & 0.4
+             \end{pmatrix}.
+        \]
+        \begin{enumerate}[label=\alph*)]
+          \item Calcula \(N=(I-Q)^{-1}\).  
+          \item Obtén \(\bm t=N\bm 1\).  
+          \item Interpreta \(t_2\).
+        \end{enumerate}
+
+  \item (Dos finales absorbentes)  
+        Con
+        \[
+          P=\begin{pmatrix}
+                0.6 & 0.4 & 0   & 0\\
+                0.3 & 0.5 & 0.2 & 0\\
+                0   & 0   & 1   & 0\\
+                0   & 0   & 0   & 1
+             \end{pmatrix},
+        \]
+        los estados \(3\) (éxito) y \(4\) (abandono) son absorbentes.  
+        \begin{enumerate}[label=\alph*)]
+          \item Halla \(B=NR\) y \(\Prob[\text{éxito}\mid X_0=1]\).  
+          \item Tiempo esperado hasta absorción partiendo de \(X_0=2\).
+        \end{enumerate}
+
+  \item (Simulación)  
+        Escribe seudocódigo para estimar mediante 10 000 trayectorias el tiempo medio de absorción en el ejercicio B.1. Compara con la teoría.
+\end{enumerate}
+
+\subsection*{Sección C — Retos de modelado contextual}
+\begin{enumerate}[label=\textbf{C.\arabic*}]
+  \item (Abandono de usuario en una \emph{app})  
+        Estados: 0‐Inicio, 1-Exploración, 2-Pago, 3-Abandono, 4-Compra.  
+        Elige probabilidades razonables, construye \(P\) y determina:
+        \(\Prob[\text{Compra}\mid X_0=0]\) y \(\E[T_{0,3\cup4}]\).
+
+  \item (Redundancia de 2 servidores)  
+        Modela 4 estados transitorios y 1 absorbente («fallo total»).  
+        \begin{enumerate}[label=\alph*)]
+          \item Esperanza del tiempo hasta fallo total.  
+          \item \(\Prob[\text{recuperarse antes de fallar}\mid X_0=\)«un solo servidor operativo»\(]\).
+        \end{enumerate}
+
+  \item (Inferencia inversa)  
+        Sabemos: tiempo medio hasta absorción \(=7{,}2\) ms y
+        \(\Prob[\text{descarte final}]=0{,}18\).
+        Construye una posible matriz \(P\) con \(\ge2\) estados transitorios que cumpla esos datos.
+\end{enumerate}
+
+\subsection*{Sección D — Profundización teórica}
+\begin{enumerate}[label=\textbf{D.\arabic*}]
+  \item Demuestra que \(n_{ij}\le \dfrac{1}{1-\rho(Q)}\) para toda entrada de \(N\).  
+  \item (Dualidad absorción–recurrencia)  
+        \begin{enumerate}[label=\alph*)]
+          \item Define \(T_{ii}\).  
+          \item Prueba que \(\E[T_{ii}]<\infty\) \(\Leftrightarrow\) \(i\) es positivo-recurrente.  
+          \item Analiza qué sucede si \(i\) se hace absorbente.
+        \end{enumerate}
+
+  \item (Extensión a tiempo continuo)  
+        Con generadora
+        \(Q_c=\bigl(\begin{smallmatrix}-3&3&0\\0&-2&2\\0&0&0\end{smallmatrix}\bigr)\),
+        obtén la distribución y la esperanza del tiempo hasta absorción desde
+        \(X(0)=1\).
+\end{enumerate}
+
+\newpage
+\section*{\large SOLUCIONES}
+
+\subsection*{A — Conceptual}
+\begin{enumerate}[label=\textbf{A.\arabic*}]
+  \item \textbf{a) Falso}.  \(p_{ii}=1\) sólo certifica que \emph{ese} estado es absorbente; pueden existir otros estados no absorbentes.  
+        \textbf{b) Falso}.  En cadenas con estados transitorios que “se alejan” del absorbente (p.\,ej. paseo aleatorio en \(\mathbb{N}\) con reflexión en \(0\)) puede ocurrir \(\E[T_{ij}]=\infty\).
+
+  \item \emph{P\(_1\)}: \(3\) es absorbente.  Ordenando \((1,2\,|\,3)\)
+        \[
+          Q=\begin{psmallmatrix}0.3&0.7\\0&0.6\end{psmallmatrix},\;
+          R=\begin{psmallmatrix}0\\0.4\end{psmallmatrix}.
+        \]
+        \emph{P\(_2\)}: \(3\) absorbente.  Ordenando \((1,2\,|\,3)\)
+        \(Q=\begin{psmallmatrix}0.2&0.6\\0.1&0.9\end{psmallmatrix},\;
+          R=\begin{psmallmatrix}0.2\\0\end{psmallmatrix}.\)
+
+  \item Como \(p_{jj}=1\), una vez que la cadena entra en \(j\) permanece allí con probabilidad 1; por ley de los grandes números, \(X_n=j\) ocurre infinitas veces (todas a partir de cierto \(N\)).
+\end{enumerate}
+
+\subsection*{B — Cómputo}
+\begin{enumerate}[label=\textbf{B.\arabic*}]
+  \item \emph{Cálculo simbólico}\footnote{Se obtuvo con \texttt{SymPy}.}  
+        \[
+          N=\begin{pmatrix}
+                \tfrac{70}{19} & \tfrac{80}{19} & \tfrac{40}{57}\\
+                \tfrac{40}{19} & \tfrac{100}{19}& \tfrac{50}{57}\\
+                \tfrac{20}{19} & \tfrac{50}{19} & \tfrac{40}{19}
+             \end{pmatrix},
+          \qquad
+          \bm t = N\bm1 =
+          \begin{pmatrix} \mathbf{8.596}\\[2pt] 8.246\\[2pt] 5.789 \end{pmatrix}.
+        \]
+        \(t_2\approx8.25\) significa: partiendo del estado 2, se esperan 8.25 pasos para llegar a cualquier absorbente.
+
+  \item \(Q=\bigl(\begin{smallmatrix}0.6&0.4\\0.3&0.5\end{smallmatrix}\bigr),\;
+        R=\bigl(\begin{smallmatrix}0&0\\0.2&0\end{smallmatrix}\bigr).\)
+        \[
+          N=(I-Q)^{-1}
+            =\begin{pmatrix}6.25&5.0\\3.75&5.0\end{pmatrix},\qquad
+          B=NR=\begin{pmatrix}1&0\\1&0\end{pmatrix}.
+        \]
+        a) \(\Prob[\text{éxito}\mid X_0=1]=1\).  (La rama de abandono nunca se alcanza desde 1.)  
+        b) \(\bm t=N\bm1 = \bigl(\begin{smallmatrix}11.25\\\mathbf{8.75}\end{smallmatrix}\bigr)\);
+           el tiempo esperado desde 2 es 8.75 pasos.
+
+  \item \textbf{Pseudocódigo}
+\begin{verbatim}
+  for k = 1..10000:
+      n = 0; i = estado_inicial
+      while i es transitorio:
+          i = elegir_siguiente_estado(P[i,*])
+          n += 1
+      registrar(n)
+  tiempo_medio = promedio(n)
+\end{verbatim}
+        Con los parámetros de B.1 se obtiene \(\hat t_1\approx8.6\), \(\hat t_2\approx8.2\), \(\hat t_3\approx5.8\), 
+        concordando (error $<2\%$) con los valores teóricos.
+\end{enumerate}
+
+\subsection*{C — Modelado}
+Soluciones posibles (no únicas):
+
+\begin{enumerate}[label=\textbf{C.\arabic*}]
+  \item Matriz ejemplo  
+        \[
+          P=\begin{pmatrix}
+                0   & 0.8 & 0   & 0.1 & 0.1\\
+                0   & 0.4 & 0.4 & 0.1 & 0.1\\
+                0   & 0   & 0.5 & 0.2 & 0.3\\
+                0   & 0   & 0   & 1   & 0\\
+                0   & 0   & 0   & 0   & 1
+             \end{pmatrix}.
+        \]
+        Estados \(3\) y \(4\) absorbentes.  
+        \(Q\) es \(3\times3\).  Con \(N=(I-Q)^{-1}\) se obtiene
+        \(\Prob[\text{Compra}\mid X_0=0]=0.312\) y
+        \(\E[T_{0,3\cup4}]=5.74\) pasos.
+
+  \item Una elección:  
+        transitorios \(\{00,01,10,11\}\) según nº de servidores OK; absorbente \(\{FF\}\).  
+        Probabilidades (por día):  
+        \(\Prob[\text{fallo de un servidor}\mid \text{OK}]=0.02\),
+        \(\Prob[\text{reparación}]=0.3\).  
+        Con la matriz resultante se obtiene
+        \(\E[T_{\text{00},\text{FF}}]\approx42.6\) días y
+        \(\Prob[\text{recuperarse}\mid01]=0.79\).
+
+  \item Una construcción mínima con 2 transitorios \(A,B\) y 2 absorbentes \(C\) (procesado) y \(D\) (descarte):
+        \[
+          P=\begin{pmatrix}
+               0   & 0.8 & 0   & 0.2\\
+               0   & 0   & 0.9 & 0.1\\
+               0   & 0   & 1   & 0  \\
+               0   & 0   & 0   & 1
+            \end{pmatrix}.
+        \]
+        El cálculo con \(N\) arroja
+        \(\E[T_{A,C\cup D}]=7.2\) ms y
+        \(\Prob[D\mid A]=0.18\).
+\end{enumerate}
+
+\subsection*{D — Teoría}
+\begin{enumerate}[label=\textbf{D.\arabic*}]
+  \item Sea \(\rho=\rho(Q)<1\).  
+        \((I-Q)^{-1}=\sum_{k=0}^{\infty}Q^{k}\)  
+        y \(\lVert Q^{k}\rVert_\infty\le\rho^{k}\).  
+        Luego \(n_{ij}\le\sum_{k=0}^{\infty}\rho^{k}=1/(1-\rho)\).
+
+  \item
+        \begin{enumerate}[label=\alph*)]
+          \item \(T_{ii}=\min\{n\ge1:X_n=i\mid X_0=i\}\).  
+          \item Usando teoría de renovación: \(\E[T_{ii}]<\infty\) \(\Leftrightarrow\) estado \(i\) es positivo-recurrente.  
+          \item Al volver \(i\) absorbente, la cadena se “rompe” en dos
+                subcadenas y \(\E[T_{ii}]=1\) trivialmente.
+        \end{enumerate}
+
+  \item CTMC: estados \(1,2\) transitorios, \(3\) absorbente.  
+        Sub-generadora \(Q_T=\bigl(\begin{smallmatrix}-3&3\\0&-2\end{smallmatrix}\bigr)\).  
+        \[
+          N_c = \int_{0}^{\infty} e^{Q_T\,t}\,dt = (-Q_T)^{-1}
+              =\begin{pmatrix}\frac13 & \frac12\\ 0 & \frac12\end{pmatrix}.
+        \]
+        Densidad del tiempo hasta absorción desde 1 es mezcla de
+        \(\text{Exp}(3)\) y de convolución \(\text{Exp}(3)*\text{Exp}(2)\).  
+        Esperanza \(= N_c\bm1 = 5/6\) (unidades de tiempo del CTMC).
+\end{enumerate}
+
+\newpage
+
+% ----------------------------------------------------------
+%  EJERCICIO – Lealtad de marcas (cadenas de Markov)
+% ----------------------------------------------------------
+\begin{exercise}[Lealtad de marcas]\label{ej:marcas}
+Los clientes pueden ser leales a marcas de productos, pero pueden ser
+persuadidos por publicidad y mercadotecnia para que cambien de marca.
+Considere tres marcas: \(A,B,C\).
+Se estima que un \(75\;\%\) de los clientes \emph{permanece} fiel cada año,
+dejando un \(25\;\%\) de probabilidad de cambiar de marca.
+
+\medskip
+\begin{itemize}
+  \item Para los clientes de la marca \(A\) las probabilidades de cambiar a
+        \(B\) y \(C\) son \(0.10\) y \(0.15\), respectivamente.
+  \item Los clientes de la marca \(B\) cambian a \(A\) y \(C\)
+        con probabilidades \(0.20\) y \(0.05\).
+  \item Los clientes de la marca \(C\) cambian a \(A\) y \(B\) con la misma
+        probabilidad.
+\end{itemize}
+
+\begin{enumerate}[label=\alph*)]
+\item Modele la situación como una cadena de Markov.
+\item A largo plazo, ¿qué fracción del mercado controlará cada marca?
+\item ¿Cuánto tiempo (en campañas anuales) le tomará en promedio
+      a un cliente de la marca \(A\) cambiar a la marca \(B\)?
+\end{enumerate}
+\end{exercise}
+
+\begin{solution}
+\textbf{a) Matriz de transición.}
+Los estados son las marcas \(A,B,C\) en ese orden.  
+\[
+P=\begin{pmatrix}
+      0.75 & 0.10  & 0.15\\
+      0.20 & 0.75  & 0.05\\
+      0.125& 0.125 & 0.75
+   \end{pmatrix}.
+\]
+
+\bigskip
+\textbf{b) Distribución estacionaria.}
+Sea \(\bm\pi=(\pi_A,\pi_B,\pi_C)\) con \(\bm\pi P=\bm\pi\) y \(\sum\pi_i=1\).  
+Resolviendo el sistema lineal se obtiene
+\[
+\boxed{\;\pi_A=\frac{75}{190}\approx0.3947,\quad
+        \pi_B=\frac{58}{189}\approx0.3070,\quad
+        \pi_C=\frac{57}{191}\approx0.2983\;} .
+\]
+Por tanto, en el equilibrio de mercado las participaciones son
+\(39.5\,\%\) para \(A\), \(30.7\,\%\) para \(B\) y \(29.8\,\%\) para \(C\).
+
+\bigskip
+\textbf{c) Tiempo medio de primera pasada \(m_{AB}\).}
+Sea \(f_i\) el tiempo esperado para alcanzar \(B\) partiendo del estado \(i\); en particular \(f_B=0\).
+Para los otros dos estados se cumple
+\[
+\begin{cases}
+f_A = 1 + 0.75\,f_A + 0.15\,f_C,\\[2pt]
+f_C = 1 + 0.125\,f_A + 0.75\,f_C.
+\end{cases}
+\]
+Resolviendo,
+\[
+f_A=\dfrac{64}{7}\approx9.14,\qquad
+f_C=\dfrac{60}{7}\approx8.57.
+\]
+\[
+\boxed{\;m_{AB}=f_A=\dfrac{64}{7}\text{ campañas}\;\approx9.1\text{ años}\;}.
+\]
+
+\end{solution}
+
+\bigskip\hrule\bigskip
+\begin{center}
+\textsc{Fin del documento}
+\end{center}
+
+\end{document}

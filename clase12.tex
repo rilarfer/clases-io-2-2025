@@ -1,0 +1,100 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{lmodern}
+\usepackage{geometry}
+
+\geometry{a4paper, margin=2.5cm}
+
+\begin{document}
+
+\section*{Juego con cuatro bolas y dos urnas: Cadena de Markov con período 2}
+
+\textbf{Enunciado.} Se tienen cuatro bolas distribuidas en dos urnas (Urna A y Urna B). 
+En cada paso del juego, se elige una de las 4 bolas al azar (probabilidad uniforme) y 
+se transfiere a la otra urna. Se pide representar el sistema como una cadena de Markov 
+y mostrar que todos sus estados son periódicos, con período $t = 2$.
+
+\medskip
+
+\textbf{Construcción de la cadena de Markov.}
+Sea $X_n$ la variable que indica cuántas bolas hay en la Urna A después del paso $n$. 
+Claramente, $X_n$ puede tomar valores en $\{0,1,2,3,4\}$. En cada paso:
+
+\begin{itemize}
+    \item Si $X_n = i$, se elige una de las 4 bolas con igual probabilidad $\frac{1}{4}$.
+    \item Si la bola elegida está en la Urna A (hay $i$ de ellas), pasa a la Urna B.
+    \item Si la bola elegida está en la Urna B (hay $4 - i$ de ellas), pasa a la Urna A.
+\end{itemize}
+
+Por tanto, la probabilidad de que $X_{n+1} = i+1$ (ir a un estado con una bola más en A) 
+es $\frac{4-i}{4}$, y la probabilidad de que $X_{n+1} = i-1$ es $\frac{i}{4}$.
+No hay probabilidad de quedarse en $i$ en un solo paso, ya que siempre se mueve \emph{alguna} bola.
+
+\medskip
+
+\textbf{Matriz de transición.}
+En el orden de estados $\{0, 1, 2, 3, 4\}$, la matriz de transición $P$ es:
+
+\[
+P \;=\;
+\begin{pmatrix}
+P(0\!\to\!0) & P(0\!\to\!1) & P(0\!\to\!2) & P(0\!\to\!3) & P(0\!\to\!4)\\[6pt]
+P(1\!\to\!0) & P(1\!\to\!1) & P(1\!\to\!2) & P(1\!\to\!3) & P(1\!\to\!4)\\[6pt]
+P(2\!\to\!0) & P(2\!\to\!1) & P(2\!\to\!2) & P(2\!\to\!3) & P(2\!\to\!4)\\[6pt]
+P(3\!\to\!0) & P(3\!\to\!1) & P(3\!\to\!2) & P(3\!\to\!3) & P(3\!\to\!4)\\[6pt]
+P(4\!\to\!0) & P(4\!\to\!1) & P(4\!\to\!2) & P(4\!\to\!3) & P(4\!\to\!4)
+\end{pmatrix}
+\;=\;
+\begin{pmatrix}
+0 & 1 & 0 & 0 & 0 \\
+\tfrac{1}{4} & 0 & \tfrac{3}{4} & 0 & 0 \\
+0 & \tfrac{1}{2} & 0 & \tfrac{1}{2} & 0 \\
+0 & 0 & \tfrac{3}{4} & 0 & \tfrac{1}{4} \\
+0 & 0 & 0 & 1 & 0
+\end{pmatrix}.
+\]
+
+\begin{itemize}
+    \item \textbf{Fila 0 (estado $0$):} No hay bolas en A, de modo que al elegir una bola (obligatoriamente de B) pasa a A. Probabilidad $1$ de ir a estado $1$.
+    \item \textbf{Fila 1 (estado $1$):} Hay $1$ bola en A y $3$ en B. Se va a $0$ si se elige la bola en A (prob.\ $\frac{1}{4}$) o a $2$ si se elige una de las $3$ bolas de B (prob.\ $\frac{3}{4}$).
+    \item \textbf{Fila 2 (estado $2$):} Hay $2$ bolas en A y $2$ en B. Se va a $1$ si se elige una de A (prob.\ $\frac{1}{2}$) o a $3$ si se elige una de B (prob.\ $\frac{1}{2}$).
+    \item \textbf{Fila 3 (estado $3$):} Hay $3$ bolas en A y $1$ en B. Se va a $2$ (prob.\ $\tfrac{3}{4}$) o a $4$ (prob.\ $\tfrac{1}{4}$).
+    \item \textbf{Fila 4 (estado $4$):} Todas las bolas en A, la que se elige pasa a B, por tanto probabilidad $1$ de ir a estado $3$.
+\end{itemize}
+
+\medskip
+
+\textbf{Período de los estados.}
+Recordemos que el período de un estado $i$ se define como
+\[
+d(i) \;=\; \gcd\bigl\{\,n>0 : P^n(i,i) > 0\bigr\}.
+\]
+Observemos que:
+
+\begin{enumerate}
+    \item En \emph{un} paso no se puede volver al mismo estado, pues siempre se mueve 
+          la cuenta de bolas en A en $\pm 1$. Así, $P^1(i,i) = 0$.
+    \item En \emph{dos} pasos, sí se puede volver. Por ejemplo, si $X_n = i$, 
+          se pasa a $i+1$ (con prob.\ $\frac{4-i}{4}$) y luego se regresa a $i$ 
+          (con prob.\ $\frac{i+1}{4}$), o bien $i \to i-1 \to i$. 
+          Así, $P^2(i,i) > 0$.
+    \item El número de bolas en A cambia su paridad en cada paso. Por ello, para regresar 
+          a un estado $i$ (si es par) se necesita un número \emph{par} de pasos. 
+          Lo mismo si $i$ es impar. En consecuencia, $P^n(i,i)>0$ \emph{solo} para 
+          $n$ par.
+\end{enumerate}
+
+De este modo, el conjunto de $n$ para los que $P^n(i,i) > 0$ es 
+$\{2,4,6,\dots\}$, y la mayor común divisor de todos esos valores es $2$. 
+
+\[
+d(i) \;=\; \gcd(\{2,4,6,\ldots\}) \;=\; 2.
+\]
+
+Por lo tanto, \textbf{todos los estados tienen período 2}, y la cadena se dice 
+\emph{periódica} con período $2$.
+
+\end{document}

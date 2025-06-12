@@ -1,0 +1,328 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetheme{Goddard}
+\hypersetup{colorlinks,allcolors=.,urlcolor=magenta}
+
+\title{Investigación de Operaciones II}
+\subtitle{Unidad 1: Análisis de Redes}
+\author{Ricardo Jesús Largaespada Fernández}
+\institute{Ingeniería de Sistemas, DACTIC, UNI}
+\date{24 de Marzo, 2025}
+
+\begin{document}
+
+% ---------------------------------------------------------------
+% TÍTULO Y AGENDA
+% ---------------------------------------------------------------
+\frame{\titlepage}
+
+\begin{frame}{Agenda}
+    \tableofcontents
+\end{frame}
+
+% ---------------------------------------------------------------
+% SESIÓN 7
+% ---------------------------------------------------------------
+\section{Sesión 7}
+
+% ---------------------------------------------------------------
+% FRAME: Sesión 7 - Introducción
+% ---------------------------------------------------------------
+\begin{frame}{Sesión 7}
+\textbf{Tema:}
+\begin{enumerate}
+    \item Problema de Flujo de Costo Mínimo: Enfoque Unificador.
+\end{enumerate}
+
+\textbf{Objetivo:}
+\begin{itemize}
+    \item Comprender la estructura general del problema de flujo de costo mínimo y su aplicación unificada a problemas de redes.
+\end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------
+% SUBSECCIÓN: Flujo de Costo Mínimo
+% ---------------------------------------------------------------
+\subsection{Problema de Flujo de Costo Mínimo}
+
+% ---------------------------------------------------------------
+% FRAME: Visión General
+% ---------------------------------------------------------------
+\begin{frame}{Visión General}
+\textbf{Características Clave:}
+\begin{itemize}
+    \item Problema de programación lineal en redes
+    \item Generaliza múltiples problemas clásicos:
+    \begin{itemize}
+        \item Ruta más corta
+        \item Flujo máximo
+        \item Transporte/Asignación
+    \end{itemize}
+    \item Resoluble con el \textbf{Método Símplex de Redes}
+\end{itemize}
+
+\begin{block}{Estructura Básica}
+Minimizar: $\sum_{(i,j)\in A} c_{ij}x_{ij}$ \\
+Sujeto a: \\
+$\sum_{j} x_{ij} - \sum_{j} x_{ji} = b_i$ (Conservación de flujo) \\
+$l_{ij} \leq x_{ij} \leq u_{ij}$ (Límites de capacidad)
+\end{block}
+\end{frame}
+
+% ---------------------------------------------------------------
+% FRAME: Relación con Otros Problemas
+% ---------------------------------------------------------------
+\begin{frame}{Mapa de Reducción}
+
+\begin{center}
+\begin{tikzpicture}[every node/.style={align=center}, node distance=2cm]
+    % Nodos con más espacio
+    \node (MCNF) at (0,4) {MCNF};
+    \node (Transshipment) at (-3,2) {Transbordo};
+    \node (MaxFlow) at (3,2) {Flujo Máximo};
+    \node (Transportation) at (-3,0) {Transporte};
+    \node (ShortestPath) at (0,0) {Camino Más Corto};
+    \node (Assignment) at (-3,-2) {Asignación};
+
+    % Flechas invertidas y con más espacio para etiquetas
+    \draw[->] (Transshipment) -- node[below left] {($u_{ij} = \infty$)} (MCNF);
+    \draw[->] (MaxFlow) -- node[midle right] {($c_{ij} = 0\ \forall (i,j) \in E$)\\ ($c_{ts} = -1$)} (MCNF);
+    \draw[->] (Transportation) -- node[below left] {($b_i \neq 0$)} (Transshipment);
+    \draw[->] (ShortestPath) -- node[midle right] {($b_i = 0\ \forall i \in T$)\\ ($b_s = 1, b_t = -1$)} (Transshipment);
+    \draw[->] (Assignment) -- node[left] {($b_i = \pm1$)} (Transportation);
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+% ---------------------------------------------------------------
+% FRAME: Método Símplex de Redes
+% ---------------------------------------------------------------
+\begin{frame}{Método Símplex de Redes}
+\textbf{Ventajas sobre el Símplex Estándar:}
+\begin{itemize}
+    \item Explota la estructura de red para eficiencia computacional
+    \item Trabaja con árboles de expansión en lugar de matrices completas
+    \item Complejidad reducida: $O(n^2)$ vs $O(2^n)$ en casos prácticos
+\end{itemize}
+
+\textbf{Etapas del Algoritmo:}
+\begin{enumerate}
+    \item Encontrar solución básica factible inicial
+    \item Identificar arco entrante (menor costo reducido)
+    \item Determinar ciclo de actualización
+    \item Ajustar flujos y actualizar árbol
+    \item Repetir hasta optimalidad
+\end{enumerate}
+\end{frame}
+
+% ---------------------------------------------------------------
+% FRAME: Caso de Estudio - Nicaragua
+% ---------------------------------------------------------------
+\section{Paso a Paso: Algoritmo Símplex de Redes}
+
+% ---------------------------------------------------------------
+% FRAME: Definición del Problema
+% ---------------------------------------------------------------
+\begin{frame}{Definición del Problema Ejemplo}
+\centering
+\begin{tikzpicture}[scale=0.8,every node/.style={scale=0.8}]
+    \node[circle,draw] (1) at (0,0) {1 \\ (100)};
+    \node[circle,draw] (2) at (2,2) {2 \\ (0)};
+    \node[circle,draw] (3) at (2,-2) {3 \\ (0)};
+    \node[circle,draw] (4) at (4,2) {4 \\ (-60)};
+    \node[circle,draw] (5) at (4,-2) {5 \\ (-40)};
+    
+    \draw[->] (1) to node[above left] {$(30, 5)$} (2);
+    \draw[<-] (1) to node[below left] {$(40, 4)$} (3);
+    \draw[->] (2) to node[above] {$(20, 3)$} (3);
+    \draw[->] (2) to node[above] {$(50, 6)$} (4);
+    \draw[->] (3) to node[below] {$(30, 5)$} (5);
+    \draw[->] (2) to node[left] {$(∞, 2)$} (5);
+    \draw[->] (3) to node[right] {$(∞, 3)$} (4);
+\end{tikzpicture}
+
+\begin{itemize}
+    \item \textbf{Nodos:} 1(Fuente), 4-5(Destino), 2-3(Transbordo)
+    \item \textbf{Arcos:} $(l_{ij}, u_{ij}, c_{ij})$ = (flujo mínimo, máximo, costo)
+    \item \textbf{Objetivo:} Minimizar costo total cumpliendo demandas
+\end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------
+% FRAME: Paso 1 - Árbol de Expansión Inicial
+% ---------------------------------------------------------------
+\begin{frame}{Paso 1: Árbol de Expansión Inicial}
+\centering
+\begin{tikzpicture}[scale=0.7]
+    \node[circle,draw] (1) at (0,0) {1};
+    \node[circle,draw] (2) at (2,2) {2};
+    \node[circle,draw] (3) at (2,-2) {3};
+    \node[circle,draw] (4) at (4,2) {4};
+    \node[circle,draw] (5) at (4,-2) {5};
+    
+    \draw[thick,red] (1) -- (2) node[midway,above left] {30/5};
+    \draw[thick,red] (1) -- (3) node[midway,below left] {40/4};
+    \draw[thick,red] (2) -- (4) node[midway,above] {30/6};
+    \draw[thick,red] (3) -- (5) node[midway,below] {30/5};
+\end{tikzpicture}
+
+\begin{block}{Solución Básica Factible Inicial}
+\begin{itemize}
+    \item Seleccionamos arcos: (1,2), (1,3), (2,4), (3,5)
+    \item Flujos: $x_{12}=30$, $x_{13}=40$, $x_{24}=30$, $x_{35}=30$
+    \item Costo inicial: $30×5 + 40×4 + 30×6 + 30×5 = 730$
+\end{itemize}
+\end{block}
+\end{frame}
+
+% ---------------------------------------------------------------
+% FRAME: Paso 2 - Cálculo de Potenciales
+% ---------------------------------------------------------------
+\begin{frame}{Paso 2: Cálculo de Potenciales ($\pi_i$)}
+\begin{columns}
+\column{0.5\textwidth}
+\centering
+\begin{tikzpicture}[scale=0.6]
+    \node[circle,draw] (1) at (0,0) {1 \\ $\pi_1=0$};
+    \node[circle,draw] (2) at (2,2) {2 \\ $\pi_2=5$};
+    \node[circle,draw] (3) at (2,-2) {3 \\ $\pi_3=4$};
+    \node[circle,draw] (4) at (4,2) {4 \\ $\pi_4=11$};
+    \node[circle,draw] (5) at (4,-2) {5 \\ $\pi_5=9$};
+    
+    \draw[thick,red] (1) -- (2);
+    \draw[thick,red] (1) -- (3);
+    \draw[thick,red] (2) -- (4);
+    \draw[thick,red] (3) -- (5);
+\end{tikzpicture}
+
+\column{0.5\textwidth}
+\begin{align*}
+    \pi_1 &= 0 \quad (\text{fijado}) \\
+    \pi_2 - \pi_1 &= 5 \implies \pi_2 = 5 \\
+    \pi_3 - \pi_1 &= 4 \implies \pi_3 = 4 \\
+    \pi_4 - \pi_2 &= 6 \implies \pi_4 = 11 \\
+    \pi_5 - \pi_3 &= 5 \implies \pi_5 = 9
+\end{align*}
+\end{columns}
+
+\begin{block}{Fórmula de Potenciales}
+Para cada arco básico $(i,j)$: \\
+$\pi_j - \pi_i = c_{ij}$
+\end{block}
+\end{frame}
+
+% ---------------------------------------------------------------
+% FRAME: Paso 3 - Costos Reducidos
+% ---------------------------------------------------------------
+\begin{frame}{Paso 3: Cálculo de Costos Reducidos}
+\begin{tabular}{l|c|c}
+Arco no básico & Cálculo & Valor \\ \hline
+(2,3) & $3 - \pi_2 + \pi_3 = 3 -5 +4$ & 2 \\
+(2,5) & $2 -5 +9$ & 6 \\
+(3,4) & $3 -4 +11$ & 10 \\
+(3,5) & \textcolor{green}{5 -4 +9} & \textcolor{green}{10} \\
+\end{tabular}
+
+\begin{block}{Fórmula de Costo Reducido}
+$\bar{c}_{ij} = c_{ij} - \pi_i + \pi_j$ \\
+\small
+Si $\bar{c}_{ij} < 0$: arco candidato a entrar
+\end{block}
+
+\vspace{1em}
+\textbf{Conclusión:} No hay costos reducidos negativos $\rightarrow$ ¿Solución óptima? \alert{¡No!} Falta verificar capacidad
+\end{frame}
+
+% ---------------------------------------------------------------
+% FRAME: Paso 4 - Análisis de Capacidad
+% ---------------------------------------------------------------
+\begin{frame}{Paso 4: Análisis de Capacidad}
+\begin{columns}
+\column{0.6\textwidth}
+\centering
+\begin{tikzpicture}[scale=0.6]
+    \node[circle,draw] (1) at (0,0) {1};
+    \node[circle,draw] (2) at (2,2) {2};
+    \node[circle,draw] (3) at (2,-2) {3};
+    \node[circle,draw] (4) at (4,2) {4};
+    \node[circle,draw] (5) at (4,-2) {5};
+    
+    \draw[->,dashed] (2) to [bend right] node[midway,above] {+θ} (5);
+    \draw[->,dashed] (5) to [bend right] node[midway,below] {-θ} (3);
+    \draw[->,dashed] (3) to [bend right] node[midway,below] {+θ} (1);
+    \draw[->,dashed] (1) to [bend right] node[midway,above] {-θ} (2);
+\end{tikzpicture}
+
+\column{0.4\textwidth}
+\textbf{Ciclo de Ajuste:}
+\begin{itemize}
+    \item Entra: (2,5)
+    \item Sale: (1,2)
+    \item θ máxima: 30
+\end{itemize}
+\end{columns}
+
+\begin{block}{Actualización de Flujos}
+\begin{align*}
+    x_{25} &= 0 + 30 = 30 \\
+    x_{12} &= 30 - 30 = 0 \\
+    x_{13} &= 40 + 30 = 70 \\
+    x_{35} &= 30 - 30 = 0
+\end{align*}
+\end{block}
+\end{frame}
+
+% ---------------------------------------------------------------
+% FRAME: Paso 5 - Nueva Solución Óptima
+% ---------------------------------------------------------------
+\begin{frame}{Paso 5: Nueva Solución Óptima}
+\centering
+\begin{tikzpicture}[scale=0.7]
+    \node[circle,draw] (1) at (0,0) {1};
+    \node[circle,draw] (2) at (2,2) {2};
+    \node[circle,draw] (3) at (2,-2) {3};
+    \node[circle,draw] (4) at (4,2) {4};
+    \node[circle,draw] (5) at (4,-2) {5};
+    
+    \draw[thick,red] (1) -- (3) node[midway,left] {70/4};
+    \draw[thick,red] (2) -- (4) node[midway,above] {30/6};
+    \draw[thick,red] (2) -- (5) node[midway,right] {30/2};
+    \draw[thick,red] (3) -- (4) node[midway,below] {30/3};
+\end{tikzpicture}
+
+\begin{block}{Costo Actualizado}
+\begin{itemize}
+    \item Flujos: $x_{13}=70$, $x_{24}=30$, $x_{25}=30$, $x_{34}=30$
+    \item Nuevo costo: $70×4 + 30×6 + 30×2 + 30×3 = 670$ (\textcolor{green}{↓60})
+\end{itemize}
+\end{block}
+
+\begin{alertblock}{Verificación Final}
+No hay más costos reducidos negativos $\rightarrow$ \textbf{Solución Óptima}
+\end{alertblock}
+\end{frame}
+
+% ---------------------------------------------------------------
+% FRAME: Conclusión
+% ---------------------------------------------------------------
+\begin{frame}{Conclusión}
+\begin{itemize}
+    \item El flujo de costo mínimo integra múltiples problemas clásicos
+    \item El símplex de redes provee ventajas computacionales decisivas
+    \item Aplicaciones nacionales demuestran su utilidad práctica
+    \item Herramienta fundamental para la toma de decisiones en redes
+\end{itemize}
+
+\begin{alertblock}{Próxima Sesión}
+Implementación computacional con Python NetworkX y casos reales
+\end{alertblock}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,249 @@
+\documentclass[11pt,paper=a4,answers, addpoints]{exam}
+\usepackage{graphicx,lastpage,comment}
+\usepackage{upgreek}
+\usepackage{censor}
+\censorruledepth=-.2ex
+\censorruleheight=.1ex
+\hyphenpenalty 10000
+\usepackage[paperheight=10.5in,paperwidth=8.27in,bindingoffset=0in,left=0.8in,right=1in, top=1.3in,bottom=1in,headsep=.5\baselineskip]{geometry}
+\flushbottom
+\usepackage[normalem]{ulem}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\renewcommand\ULthickness{2pt} %%---> For changing thickness of underline
+\setlength\ULdepth{1.5ex}%\maxdimen ---> For changing depth of underline
+\renewcommand{\baselinestretch}{1}
+\pagestyle{empty}
+
+\pagestyle{headandfoot}
+\headrule
+\newcommand{\continuedmessage}{%
+  \ifcontinuation{\footnotesize Pregunta \ContinuedQuestion\ continua\ldots}{}%
+}
+\runningheader{\footnotesize Segunda Convocatoria}
+{\footnotesize Investigación de Operaciones I}
+{\footnotesize Página \thepage\ de \numpages}
+\footrule
+\footer{\footnotesize }
+{}
+{\ifincomplete{\footnotesize Pregunta \IncompleteQuestion\ continua en la siguiente página \ldots}
+  {\iflastpage{\footnotesize Final del examen}{\footnotesize Por favor vea la siguiente página\ldots}}}
+\usepackage{amsfonts,amsmath}
+\usepackage{cleveref}
+\crefname{figure}{figure}{figures}
+\crefname{question}{question}{questions}
+\renewcommand\thequestion{\arabic{question}}
+\renewcommand{\questionlabel}{\thequestion)}
+\renewcommand{\questionshook}{%
+  \setlength{\leftmargin}{0pt}%
+  \setlength{\labelwidth}{-\labelsep}%
+}
+\usepackage{amsmath}
+\decimalpoint
+\nopointsinmargin
+\pointpoints{Punto}{Punto}
+
+\marginpointname{\points}
+\pointformat{\boldmath\themarginpoints}
+\bracketedpoints
+\usepackage{quoting,xparse}
+
+\pointpoints{punto}{puntos}
+\bonuspointpoints{punto extra}{puntos extra}
+ 
+\totalformat{Pregunta \thequestion: \totalpoints puntos}
+ 
+\hqword{Pregunta}
+\hpgword{Página}
+\hpword{Puntos}
+\hsword{Puntos obtenidos}
+\htword{Total}
+\usepackage{circuitikz}
+\usepackage{color}
+\usepackage{pgfplots,graphicx}
+
+\usepackage{ mathrsfs}
+\newcommand{\Laplace}[1]{\ensuremath{\mathscr{L}{\left\lbrace #1\right\rbrace}}}
+\newcommand{\InvLap}[1]{\ensuremath{\mathscr{L}^{-1}{\left\lbrace #1\right\rbrace}}}
+
+\usepackage{background}
+\usepackage{lipsum} % Para texto de ejemplo, puedes eliminarlo
+
+% Configuración del fondo
+\backgroundsetup{
+  scale=1,  % Escala del PDF
+  color=black,  % Color (puedes usar transparente si es un PDF a color)
+  opacity=1,  % Opacidad (1 es opaco, 0 es transparente)
+  angle=0,  % Ángulo del PDF
+  pages=all,  % Aplicar a todas las páginas
+  position=current page.south west,  % Posición del PDF
+  nodeanchor=south west,
+  vshift=0mm,  % Desplazamiento vertical
+  hshift=0mm,  % Desplazamiento horizontal
+  contents={\includegraphics[width=\paperwidth,height=\paperheight]{fondo.pdf}} % PDF de fondo
+}
+
+\begin{document}
+%\printanswers
+\noprintanswers
+%\shadedsolutions
+%\fillwithdottedlines
+\shorthandoff{<>}
+\thispagestyle{empty}
+\begin{center}
+    \textit{\textbf{Examen de Segunda Convocatoria}}
+\end{center}
+\noindent
+\vspace{-.1cm}
+\begin{minipage}[t]{.6\textwidth}%
+  {\bfseries Nombres}: \makebox[.75\textwidth]{\hrulefill} \par
+  {\bfseries Apellidos}: \makebox[.75\textwidth]{\hrulefill} \par
+  {\bfseries Docente}: Ricardo Largaespada
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{.4\textwidth}%
+  {\bfseries Curso}: Investigación de Operaciones I \par
+  {\bfseries Fecha}: 13 de diciembre 2024 \par
+  {\bfseries Grupo:} 
+  \vspace{1ex}
+\end{minipage}    \hfill
+  \rule{\textwidth}{1pt}
+\begin{comment}
+\noindent\underline{\sc Instrucciones a estudiantes}
+\vspace{5mm}
+\begin{enumerate}
+\item Este examen contiene {\bf CINCO (5)} preguntas.
+\item Puedes utilizar calculadora. Sin embargo, debes de escribir sistemáticamente los pasos del trabajo.
+\item Entrega todo el trabajo adicional en páginas rotuladas.
+\end{enumerate}
+
+\begin{center}
+\textbf{Tabla (para uso EXCLUSIVO del profesor)}\\
+\addpoints
+\combinedgradetable[v][questions]
+\end{center}
+	
+\noindent
+\rule[1ex]{\textwidth}{1pt}
+\end{comment}
+
+\begin{questions}
+\titledquestion{Método Gráfico}[20]
+
+Una empresa produce dos productos, \(P_1\) y \(P_2\). Cada producto requiere recursos limitados de los departamentos de Producción y Ensamblaje. Las ganancias por unidad de \(P_1\) y \(P_2\) son 50 y 40 unidades monetarias, respectivamente. Las restricciones de recursos son:
+
+\[
+3P_1 + 2P_2 \leq 60 \quad \text{(Producción)},
+\]
+\[
+2P_1 + 4P_2 \leq 80 \quad \text{(Ensamblaje)},
+\]
+\[
+P_1, P_2 \geq 0.
+\]
+
+La función objetivo es:
+\[
+\text{Maximizar } Z = 50P_1 + 40P_2.
+\]
+
+Resuelve:
+\begin{enumerate}
+    \item Representa gráficamente las restricciones.
+    \item Determina la región factible.
+    \item Encuentra la solución óptima.
+\end{enumerate}
+
+\titledquestion{Programación Lineal - Método Tabular}[20]
+
+Una empresa fabrica tres tipos de muebles: sillas (\(S\)), mesas (\(M\)) y escritorios (\(E\)). La función objetivo es maximizar las ganancias, con las siguientes ganancias unitarias:
+\[
+\text{Ganancias: } Z = 30S + 40M + 35E.
+\]
+
+Las restricciones son las siguientes:
+\[
+S + M + E \leq 100 \quad \text{(Disponibilidad de madera en unidades)},
+\]
+\[
+2S + M + 3E \leq 180 \quad \text{(Horas de trabajo disponibles)},
+\]
+\[
+S, M, E \geq 0.
+\]
+
+Resuelve utilizando el {\bf método tabular}:
+\begin{enumerate}
+    \item Escribe el modelo en forma estándar.
+    \item Encuentra la solución óptima mostrando cada iteración.
+\end{enumerate}
+
+\titledquestion{Dualidad - Interpretación Económica}[20]
+
+Un agricultor tiene 10 hectáreas de tierra y desea maximizar sus ingresos plantando maíz y frijol. El beneficio por hectárea es de 2000 unidades monetarias para el maíz y 3000 unidades monetarias para el frijol. Las restricciones son las siguientes:
+\[
+2M + F \leq 12 \quad \text{(Disponibilidad de agua en miles de litros)},
+\]
+\[
+M + F \leq 10 \quad \text{(Área disponible en hectáreas)},
+\]
+\[
+M, F \geq 0.
+\]
+
+La función objetivo es:
+\[
+\text{Maximizar } Z = 2000M + 3000F.
+\]
+
+Resuelve:
+\begin{enumerate}
+    \item Plantea el problema dual asociado.
+    \item Encuentra la solución del problema dual.
+    \item Interpreta económicamente los valores de las variables duales (precios sombra).
+\end{enumerate}
+
+\titledquestion{Transporte (Balanceado}[20]
+
+Una empresa necesita transportar productos desde tres plantas \(A, B, C\) hasta tres almacenes \(X, Y, Z\). Las capacidades de oferta y demanda están balanceadas. Los costos unitarios de transporte (en unidades monetarias) son los siguientes:
+
+\[
+\begin{array}{c|c c c c}
+ & X & Y & Z & \text{Oferta} \\
+\hline
+A & 4 & 8 & 8 & 20 \\
+B & 6 & 4 & 5 & 30 \\
+C & 7 & 6 & 3 & 25 \\
+\hline
+\text{Demanda} & 15 & 35 & 25 &
+\end{array}
+\]
+
+\begin{parts}
+    \part Encuentra una solución inicial usando el método de la Esquina Noroeste.
+    \part Encuentra la solución óptima usando el método de transporte.
+\end{parts}
+
+\titledquestion{Asignación}[20]
+
+Una empresa asigna cuatro empleados \(A, B, C, D\) a cuatro tareas \(1, 2, 3, 4\). Los costos asociados (en unidades monetarias) de asignar cada empleado a una tarea están dados por la siguiente matriz:
+
+\[
+\begin{array}{c|c c c c}
+ & \text{Tarea 1} & \text{Tarea 2} & \text{Tarea 3} & \text{Tarea 4} \\
+\hline
+A & 8 & 6 & 7 & 11 \\
+B & 8 & 3 & 4 & 6 \\
+C & 8 & 9 & 8 & 5 \\
+D & 9 & 4 & 6 & 4
+\end{array}
+\]
+
+\begin{parts}
+    \part Usa el método de asignación (algoritmo de Húngaro) y encuentra la asignación óptima.
+    \part Indica el costo mínimo total.
+\end{parts}
+
+\end{questions}
+
+\end{document}

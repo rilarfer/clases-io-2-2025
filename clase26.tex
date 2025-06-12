@@ -1,0 +1,325 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage[nosetup]{evan}
+%\usetheme{Goddard}
+\usetheme{Madrid}
+\hypersetup{colorlinks,allcolors=.,urlcolor=magenta}
+\usepackage[table]{xcolor} % Para definir colores en tablas
+\usepackage{graphicx} % Para redimensionar la tabla
+
+\title{Investigación de Operaciones II}
+\subtitle{Unidad 4: Elementos de Teoría de Juegos y Análisis de Decisiones}
+\author[Ricardo Largaespada]{Ricardo Jesús Largaespada Fernández}
+\institute[UNI]{Ingeniería de Sistemas, DACTIC, UNI}
+\date{10 de Junio, 2025}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Agenda}
+\tableofcontents
+\end{frame}
+
+\section{Sesión 26}
+\begin{frame}
+\frametitle{Sesión 26}
+
+\textbf{Tema}
+\begin{enumerate}
+\item Toma de decisiones sin experimentación.
+\item Toma de decisiones con experimentación.
+\end{enumerate}
+\textbf{Objetivo}
+\begin{itemize}
+    \item Seleccionar el enfoque óptimo de toma de decisiones (con/sin experimentación) mediante el análisis de matrices de payoff, árboles de decisión y valor esperado de la información, para resolver problemas estratégicos en sistemas empresariales competitivos.
+\end{itemize}
+\end{frame}
+
+% ============ 0. MARCO GENERAL =================================================
+\begin{frame}{Elementos básicos}
+  \begin{itemize}
+    \item \textbf{Alternativas} $A_1,\dots,A_m$
+    \item \textbf{Estados de la naturaleza} $S_1,\dots,S_n$
+    \item \textbf{Pagos} $P_{ij}$  (dinero o utilidad)
+    \item \textbf{Probabilidades a priori} $p_j$  (si se conocen)
+  \end{itemize}
+\end{frame}
+
+% ============ 1. CRITERIOS SIN PROBABILIDADES ==================================
+\begin{frame}{Criterios sin probabilidades}
+  \small
+  \begin{block}{Maximin (pesimista)}
+    $\displaystyle \max_{i}\bigl[\min_j P_{ij}\bigr]$
+  \end{block}
+  \begin{block}{Maximax (optimista)}
+    $\displaystyle \max_{i}\bigl[\max_j P_{ij}\bigr]$
+  \end{block}
+  \begin{block}{Minimax Arrepentimiento}
+    $R_{ij}=\max_k P_{kj}-P_{ij},\quad
+     \displaystyle \min_{i}\bigl[\max_j R_{ij}\bigr]$
+  \end{block}
+  \begin{block}{Laplace}
+    $\displaystyle \max_{i}\frac1n\sum_{j}P_{ij}$
+  \end{block}
+\end{frame}
+
+\begin{frame}{Ejemplo (criterios sin probabilidades)}
+  % ↓ Sustituye esta tabla por la del problema que desees
+  \begin{table}\centering
+    \begin{tabular}{lccc}
+      \toprule
+      & $S_1$ & $S_2$ & $S_3$\\ \midrule
+      $A_1$ & 220 & 170 & 110\\
+      $A_2$ & 200 & 180 & 150\\ \bottomrule
+    \end{tabular}
+  \end{table}
+  \begin{enumerate}\footnotesize
+    \item Ingresar matriz en \texttt{POM QM → Decision Tables}.
+    \item Seleccionar “Analysis Type = No Probabilities”.
+    \item Leer la alternativa recomendada por cada criterio.
+  \end{enumerate}
+\end{frame}
+
+% ============ 2. CRITERIO DE BAYES =============================================
+\begin{frame}{Criterio de Bayes (Valor Esperado Monetario)}
+  \[
+    \text{VEM}(A_i)=\sum_{j} P_{ij}\,p_j
+  \]
+  Elegir la alternativa con mayor VEM.
+\end{frame}
+
+\begin{frame}{Ejemplo (criterio de Bayes)}
+  % Pegue aquí la tabla con probabilidades
+  \begin{table}\centering
+    \begin{tabular}{lccc}
+      \toprule
+      & $S_1$ & $S_2$ & $S_3$\\
+      Prob.\ a priori & 0.5 & 0.3 & 0.2\\ \midrule
+      $A_1$ & 50 & 100 & $-100$\\
+      $A_2$ & 0 & 10 & 10\\
+      $A_3$ & 20 & 40 & $-40$\\ \bottomrule
+    \end{tabular}
+  \end{table}
+  \begin{enumerate}\footnotesize
+    \item \texttt{POM QM → Decision Tables} → “Analysis Type = With Probabilities”.
+    \item Introducir la fila de probabilidades.
+    \item Revisar la columna “Expected Monetary Value”.
+  \end{enumerate}
+\end{frame}
+
+% ============ 3. ÁRBOLES DE DECISIÓN ===========================================
+\begin{frame}{Árboles de decisión y \textit{rollback}}
+  \begin{itemize}
+    \item \textcolor{blue}{$\square$} Nodo de decisión 
+          \textcolor{blue}{$\bigcirc$} Nodo de azar 
+          Valor en nodo terminal.
+    \item Procedimiento \textbf{rollback}: evaluar del extremo al origen.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo (árbol de decisión)}
+  \begin{enumerate}\footnotesize
+    \item \texttt{POM QM → Decision Trees}.
+    \item “Add Decision Node” → define alternativas.
+    \item “Add Chance Node” → añade probabilidades y pagos.
+    \item “Solve” → se muestra el árbol con VEM y la política óptima.
+  \end{enumerate}
+  % Inserta una captura de pantalla aquí si lo deseas
+\end{frame}
+
+% ============ 4. VALOR DE LA INFORMACIÓN =======================================
+\begin{frame}{Valor de la información}
+  \[
+    \text{VEI perfecta}=
+      \sum_j\max_i P_{ij}\,p_j-\max_i\text{VEM}(A_i)
+  \]
+  \[
+    \text{VEI imperfecta}=
+      \text{VEM (con información)}-\max_i\text{VEM}(A_i)
+  \]
+  Realizar el estudio si \(\text{VEI} \ge\) costo del estudio.
+\end{frame}
+
+\begin{frame}{Ejemplo (valor de la información)}
+  % Describe brevemente el estudio y el costo
+  \begin{enumerate}\footnotesize
+    \item Construir árbol \emph{sin} el estudio y resolver (obtener VEM).
+    \item Duplicar el proyecto en \texttt{POM QM} y agregar las ramas del estudio.
+    \item Resolver nuevamente y comparar para calcular VEI.
+  \end{enumerate}
+\end{frame}
+
+% ============ 5. ANÁLISIS DE SENSIBILIDAD ======================================
+\begin{frame}{Análisis de sensibilidad}
+  \begin{itemize}
+    \item Identificar \textbf{probabilidades de ruptura}:  
+      valores de \(p_j\) que cambian la mejor alternativa.
+    \item En POM QM:  
+      duplicar el árbol y ajustar \(p_j\); observar cuándo se invierte la decisión.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo (análisis de sensibilidad)}
+  % Indica la probabilidad que vas a variar
+  \begin{enumerate}\footnotesize
+    \item Copiar el archivo del árbol base.
+    \item Incrementar \(p_1\) de 0.2 a 0.4 y volver a resolver.
+    \item Registrar el punto en que cambia la decisión.
+  \end{enumerate}
+\end{frame}
+
+% ============ 6. TEORÍA DE LA UTILIDAD =========================================
+\begin{frame}{Teoría de la utilidad y riesgo}
+  \small
+  \begin{itemize}
+    \item \textbf{Función exponencial}: \(U(M)=1-e^{-M/R}\)
+    \item \textbf{Función cuadrática}: \(U(M)=aM-bM^{2}\)
+    \item Equivalente de certeza \(EC=U^{-1}(\text{VEU})\)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo (utilidad y riesgo)}
+  % Datos de la lotería y valor R
+  \begin{enumerate}\footnotesize
+    \item Ingresar pagos en \texttt{POM QM → Decision Tables} con utilidades.
+    \item Aplicar la función \(U\) a cada pago (columna “Utility”).
+    \item Comparar VEU y calcular el equivalente de certeza.
+  \end{enumerate}
+\end{frame}
+
+% ============ 7. DEMANDA E INVENTARIO ==========================================
+\begin{frame}{Demanda e inventario (modelo de un período)}
+  \begin{itemize}
+    \item Demanda \(D\sim\text{Poisson}(\theta)\)
+    \item Costos: faltante \(C_u\), sobrestock \(C_o\)
+    \item Ratio crítico  \(RC=C_u/(C_u+C_o)\)
+    \item Cantidad óptima \(Q^{*}=F^{-1}(RC)\)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo (modelo de un período)}
+  \begin{enumerate}\footnotesize
+    \item \texttt{POM QM → Single-Period Model}.
+    \item Introducir \(\theta\), \(C_u\) y \(C_o\).
+    \item Leer \(Q^{*}\), utilidad esperada y nivel de servicio.
+  \end{enumerate}
+\end{frame}
+
+% ============ 8. ÁRBOLES MULTIPERÍODO ==========================================
+\begin{frame}{Árboles multiperíodo}
+  \begin{itemize}
+    \item Secuencia: invertir → resultado → reinvertir, etc.
+    \item Probabilidades pueden actualizarse con información intermedia.
+    \item Considerar valor temporal del dinero si los periodos son largos.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo (árbol multiperíodo)}
+  \begin{enumerate}\footnotesize
+    \item En \texttt{POM QM → Decision Trees} crea nodos por cada periodo.
+    \item Añade ramas de reinversión o venta al final de cada año.
+    \item Ejecuta \textit{rollback} para determinar la política óptima.
+  \end{enumerate}
+\end{frame}
+
+% ============ 9. HERRAMIENTAS POM QM ===========================================
+\begin{frame}{Resumen de módulos POM QM utilizados}
+  \begin{itemize}
+    \item \textbf{Decision Tables}   (criterios con / sin probabilidades)
+    \item \textbf{Decision Trees}   (árboles, VEI, rollback, multiperíodo)
+    \item \textbf{Single-Period Model} (demanda e inventario)
+    \item \textbf{Factor Rating}   (optional, para AHP\,$\rightarrow$\,pesos)
+  \end{itemize}
+\end{frame}
+
+%────────────────────  DA-0. VISTA GENERAL  ────────────────────
+\begin{frame}{POM QM · Módulo \textit{Decision Analysis}}
+  Contiene \textbf{cuatro sub-modelos}:
+  \begin{enumerate}
+    \item \textbf{Tabla de decisión} (criterios clásicos: VEM, Maximin, Maximax, Regret, VEIP).
+    \item \textbf{Árbol de decisión – entrada tabular}.
+    \item \textbf{Árbol de decisión – entrada gráfica}.
+    \item \textbf{Tabla de decisión para inventario de un período} (oferta/demanda).
+  \end{enumerate}
+  Todos piden:
+  \begin{itemize}
+    \item Título del problema.
+    \item Objetivo (maximizar beneficio o minimizar costo).
+  \end{itemize}
+\end{frame}
+
+%────────────────────  DA-1. TABLA DE DECISIÓN  ─────────────────
+\begin{frame}{Sub-modelo «Tabla de decisión»}
+  \begin{itemize}
+    \item Ingresa \# alternativas, \# escenarios, pagos y (opcional) probabilidades.
+    \item Caja “\textit{Extra data}” → $\alpha$ de Hurwicz (0–1).
+    \item \textbf{Atajo}: al teclear \texttt{=} en la fila de probabilidades,  
+          el programa asigna valores iguales a todos los escenarios.
+    \item Salidas principales:
+      \begin{itemize}
+        \item VEM, fila Row min, fila Row max, Hurwicz.
+        \item Ventanas extra:  
+               Multiplicaciones VEM,  Regret y Minimax,  VEIP,  Tabla Hurwicz 0–1.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+%────────────────────  DA-2. ÁRBOL TABULAR  ─────────────────────
+\begin{frame}{Sub-modelo «Árbol de decisión – entrada tabular»}
+  \begin{itemize}
+    \item Se numeran los nodos de izquierda a derecha; cada fila representa una rama:
+      \textit{(Nodo inicio, Nodo fin, Probabilidad, Pago)}.
+    \item Las ramas \emph{no} pueden terminar “en el aire” → agregar nodos finales.
+    \item El programa clasifica las ramas como:
+      \begin{itemize}
+        \item \textbf{Always} – decisión óptima incondicionalmente.
+        \item \textbf{Possibly} – elegir solo si se llega al nodo.
+        \item \textbf{Backwards} – óptima en teoría, pero el camino óptimo no llega ahí.
+      \end{itemize}
+    \item Muestra las valoraciones de cada nodo y permite graficar la estructura del árbol.
+  \end{itemize}
+\end{frame}
+
+%────────────────────  DA-3. ÁRBOL GRÁFICO  ─────────────────────
+\begin{frame}{Sub-modelo «Árbol de decisión – entrada gráfica»}
+  \begin{itemize}
+    \item Interfaz de arrastrar-y-soltar: nodos a la izquierda, panel de herramientas a la derecha.
+    \item Pasos básicos:
+      \begin{enumerate}\footnotesize
+        \item Seleccionar nodo (clic o barra desplazadora).
+        \item Indicar número de ramas y pulsar «Add branches».
+        \item Editar tipo de nodo (Decisión / Azar), nombres, pagos, probabilidades.
+      \end{enumerate}
+    \item Funciones auxiliares: copiar‐pegar sub-árbol, cambiar tipo de nodo, eliminar rama.
+    \item Al resolver, muestra VEM y política óptima igual que la versión tabular.
+  \end{itemize}
+\end{frame}
+
+%────────────────────  DA-4. TABLA INVENTARIO 1 PERÍODO ─────────
+\begin{frame}{Sub-modelo «Tabla de decisión para inventario de un período»}
+  \begin{itemize}
+    \item Orientado a escenarios \textit{oferta/demanda} con tres parámetros:
+      \begin{itemize}
+        \item \textbf{Beneficio regular}: venta normal \(\,=\,$precio–costo.
+        \item \textbf{Beneficio por exceso}: salvamento o pérdida por sobrantes (puede ser < 0).
+        \item \textbf{Beneficio por faltante}: margen al suplir la escasez (0, positivo o negativo).
+      \end{itemize}
+    \item Se ingresa la lista de demandas posibles y sus probabilidades.
+    \item El programa construye automáticamente la tabla de decisión y aplica
+          VEM, Maximin, Maximax, Regret, VEIP.
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Preguntas}
+\centering
+\Huge{¿Preguntas?}
+\end{frame}
+
+\end{document}

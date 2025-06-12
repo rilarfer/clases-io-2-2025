@@ -1,0 +1,115 @@
+\documentclass{article}
+
+% Matemática y símbolos
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Márgenes y geometría de la página
+\usepackage{geometry}
+\geometry{a4paper, margin=1in, bottom=0.5cm}
+
+% Colores y cajas
+\usepackage{xcolor}
+\usepackage{mdframed}
+
+% Gráficos y diagramas
+\usepackage{tikz}
+\usetikzlibrary{positioning}  % Para posicionamiento relativo en TikZ
+
+% Tablas elegantes y columnas personalizadas
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+
+% Imágenes
+\usepackage{graphicx}
+
+% Estilo de párrafo
+\usepackage{parskip}
+
+% Idioma
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}  % Si no usas UTF-8 nativo
+
+% Captions
+\usepackage{caption}
+
+% Información del documento
+\title{Estado Estable | Estados Absorbentes}
+\author{Ricardo Largaespada}
+\date{29 de abril 2025}
+
+% Entorno personalizado para problemas
+\newmdenv[
+  backgroundcolor=blue!5,
+  linecolor=blue,
+  linewidth=1pt,
+  roundcorner=5pt,
+  skipabove=\baselineskip,
+  skipbelow=\baselineskip
+]{problem}
+
+
+\begin{document}
+
+\maketitle
+
+\vspace{-.7cm}
+\begin{problem}
+\textbf{Problema 1 | Modelo de infracciones de tránsito}
+
+José es un conductor que acumula infracciones según las normas de tránsito vigentes en Nicaragua. Estas infracciones se clasifican en dos tipos:
+
+\begin{itemize}
+    \item \textbf{Multa amarilla}: se trata de una infracción leve.
+    \item \textbf{Multa roja}: se trata de una infracción grave que conlleva suspensión inmediata.
+\end{itemize}
+
+El sistema de sanciones funciona de la siguiente manera:
+
+\begin{itemize}
+    \item Al recibir una \textbf{multa roja}, José es suspendido inmediatamente y debe asistir a una clase obligatoria de educación vial. Luego de completarla, regresa a conducir con historial limpio.
+    \item Si acumula \textbf{tres multas amarillas}, también es suspendido y debe completar la clase de educación vial antes de volver a conducir.
+\end{itemize}
+
+El comportamiento de José cambia con el tiempo:
+
+\begin{itemize}
+    \item Justo después de volver a conducir (es decir, con historial limpio), la probabilidad de recibir una multa es del 60\%, dividida en un 40\% para una multa amarilla y un 20\% para una roja. La probabilidad de no recibir multa es del 40\%.
+    \item Por cada multa amarilla acumulada, la probabilidad total de ser multado disminuye en un 10\%, manteniéndose constante la proporción entre multas amarillas (2/3) y rojas (1/3).
+\end{itemize}
+
+\textbf{Se propone modelar este sistema como una cadena de Markov}, considerando los siguientes estados:  \textbf{M0}: José con historial limpio (0 multas), \textbf{A1}: José con 1 multa amarilla, \textbf{A2}: José con 2 multas amarillas, \textbf{A3}: José con 3 multas amarillas (entra en suspensión), \textbf{R}: José recibe una multa roja (entra en suspensión) y \textbf{S}: Estado de suspensión (ya sea por 3 amarillas o por roja); José pasa automáticamente a M0 en el siguiente período.
+
+\begin{enumerate}
+    \item[(a)] Modele esta situación como una \textbf{cadena de Markov}, definiendo la matriz de transición correspondiente.
+    
+    \item[(b)] Calcule la \textbf{distribución de estado estable} del sistema. Interprete el resultado: ¿qué proporción del tiempo se encuentra José en cada situación?
+
+    \item[c)] Si el costo de cada tarjeta amarilla es C\$\,500, y cada tarjeta roja es C\$\, 2000. Calcule el costo esperado en un ciclo de multas para José. 
+\end{enumerate}
+\end{problem}
+\vspace{-.7cm}
+\begin{problem}
+\textbf{Problema 2 | Estados Absorbentes}\\
+Datos de la progresión de estudiantes universitarios en una universidad
+particular se resumen en la siguiente matriz de probabilidades de transición:
+\[
+\begin{array}{c|cccccc}
+      & \text{Se gradúa} & \text{Abandona} & \text{Primer año} & \text{Segundo año} & \text{Tercer año} & \text{Cuarto año}\\\hline
+\text{Se gradúa} & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00\\
+\text{Abandona}  & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00\\
+\text{Primer año}& 0.00 & 0.20 & 0.15 & 0.65 & 0.00 & 0.00\\
+\text{Segundo año}& 0.00 & 0.15 & 0.00 & 0.10 & 0.75 & 0.00\\
+\text{Tercer año}& 0.00 & 0.10 & 0.00 & 0.00 & 0.05 & 0.85\\
+\text{Cuarto año}& 0.90 & 0.05 & 0.00 & 0.00 & 0.00 & 0.05
+\end{array}
+\]
+
+\begin{enumerate}
+\item En un discurso frente a 600 estudiantes de primer año, el decano les pide que vean a su alrededor y que se den cuenta de que aproximadamente 50\% de los estudiantes que allí están no llegará al día de la graduación. ¿Su análisis del proceso de Markov soporta lo expresado por el decano? Explique.
+\item Actualmente, la universidad tiene 600 estudiantes de primer año, 520 de segundo, 460 de tercero y 420 de cuarto año. ¿Qué porcentaje de los 2\,000 estudiantes que asisten a la universidad finalmente se graduará?
+\end{enumerate}
+\end{problem}
+
+\end{document}

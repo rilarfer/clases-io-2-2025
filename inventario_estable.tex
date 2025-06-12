@@ -1,0 +1,111 @@
+\documentclass[12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb, array, booktabs}
+
+\begin{document}
+
+\section*{Problema 11}
+
+Sea \(X_t\) el inventario (número de computadoras) \emph{al inicio} de la
+semana \(t\).
+Bajo la política ``si el inventario al terminar la
+semana es menor que $3$, se pide lo necesario para volver a $5$'', los
+únicos valores posibles de \(X_t\) son \(3,4,5\).
+
+\subsection*{(a)  Cadena de Markov}
+
+\[
+P \;=\;
+\begin{pmatrix}
+0.15 & 0    & 0.85\\
+0.20 & 0.15 & 0.65\\
+0.35 & 0.20 & 0.45
+\end{pmatrix},
+\qquad
+\text{orden de estados: } 3,4,5.
+\]
+
+\subsection*{(b)  Probabilidad de colocar un pedido al final de dos semanas}
+
+Partiendo de \(X_0 = 4\):
+
+\[
+\begin{aligned}
+\mathbb P(\text{pedido en semana }2)
+&=\underbrace{0.15}_{D=0}\!(0.65)
+  +\underbrace{0.20}_{D=1}\!(0.85)
+  +\underbrace{0.65}_{D\ge 2}\!(0.30) \\[2mm]
+&=0.0975 + 0.17 + 0.195 = 0.4625.
+\end{aligned}
+\]
+
+\[
+\boxed{\mathbb P=0.4625}
+\]
+
+\subsection*{(c)  Probabilidad de no colocar pedido en estado estable}
+
+Distribución estacionaria \(\boldsymbol\pi\) obtenida de
+\(\boldsymbol\pi = \boldsymbol\pi P\):
+
+\[
+\pi_3 = 0.2745,\qquad
+\pi_4 = 0.1381,\qquad
+\pi_5 = 0.5874.
+\]
+
+Probabilidad de ``no pedir’’ condicionada al estado:
+
+\[
+g(3)=0.15,\qquad g(4)=0.35,\qquad g(5)=0.70.
+\]
+
+\[
+\boxed{
+\mathbb P_\infty(\text{no pedir})=
+\sum_{s}\pi_s\,g(s)=0.501\;(\text{aprox.})
+}
+\]
+
+\subsection*{(d)  Costo esperado semanal}
+
+Datos:
+\[
+K = \$200,\qquad
+h = \$5,\qquad
+p = \$20.
+\]
+
+Para cada estado \(s\):
+
+\[
+\begin{aligned}
+E[I_s] &= E[\max(s-D,0)],\\
+E[B_s] &= E[\max(D-s,0)],\\
+C(s) &= K\,P_{\text{pedir}}(s) + h\,E[I_s]+p\,E[B_s].
+\end{aligned}
+\]
+
+\begin{center}
+\begin{tabular}{c*{6}{>{\centering}p{2.2cm}}}
+\toprule
+\(s\) & \(E[I_s]\) & \(hE[I_s]\) & \(E[B_s]\) &
+\(pE[B_s]\) & \(P_{\text{pedir}}(s)\) & \(K P_{\text{pedir}}\) & \(C(s)\)\\
+\midrule
+3 & 1.20 & 6.00 & 0.05 & 1.00 & 0.85 & 170.00 & \textbf{177.00}\\
+4 & 2.15 & 10.75 & 0   & 0.00 & 0.65 & 130.00 & \textbf{140.75}\\
+5 & 3.15 & 15.75 & 0   & 0.00 & 0.30 &  60.00 & \textbf{ 75.75}\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Costo esperado en estado estable:
+
+\[
+\boxed{
+E[C]=\pi_3C(3)+\pi_4C(4)+\pi_5C(5)
+      \approx \$112.5 \text{ por semana}.
+}
+\]
+
+\end{document}

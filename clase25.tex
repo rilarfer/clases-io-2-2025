@@ -1,0 +1,469 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage[nosetup]{evan}
+%\usetheme{Goddard}
+\usetheme{Madrid}
+\hypersetup{colorlinks,allcolors=.,urlcolor=magenta}
+\usepackage[table]{xcolor} % Para definir colores en tablas
+\usepackage{graphicx} % Para redimensionar la tabla
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\title{Investigación de Operaciones II}
+\subtitle{Unidad 4: Elementos de Teoría de Juegos y Análisis de Decisiones}
+\author[Ricardo Largaespada]{Ricardo Jesús Largaespada Fernández}
+\institute[UNI]{Ingeniería de Sistemas, DACTIC, UNI}
+\date{01 de Junio, 2025}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Agenda}
+\tableofcontents
+\end{frame}
+
+\section{Unidad 4: Elementos de Teoría de Juegos y Análisis de Decisiones}
+\begin{frame}
+\frametitle{Objetivos de la Unidad 4}
+\begin{itemize}
+    \item \textbf{Conceptual}: Razonar las diferentes estrategias para la resolución de problemas de situaciones competitivas y las alternativas para la toma de decisiones gerenciales en problemas concretos que se relacionan con la Teoría de Juegos.
+    \item \textbf{Procedimental}: Resolver problemas usando diferentes estrategias relacionados a la matriz de pago creando arboles de decisiones que lo lleven a la decisión óptima en dependencia de los escenarios presentes.
+    \item \textbf{Actitudinal}: Promover la actitud crítica en las posibles soluciones de problemas planteados en las diferentes empresas que compiten por el mercado de productos para decidir en los cambios necesarias a fin de elevar la productividad y las utilidades.
+\end{itemize}
+\end{frame}
+
+\section*{Sesión 25}
+\begin{frame}
+\frametitle{Sesión 25}
+
+\textbf{Tema}
+\begin{enumerate}
+\item Formulación de juegos de dos personas con suma cero.  
+\pause
+\item Solución de juegos sencillos.
+\pause
+\item Juegos con estrategias mixtas.  
+\pause
+\item Procedimiento de solución gráfica.
+\end{enumerate}
+\pause
+\textbf{Objetivo}
+\begin{itemize}
+    \item Diseñar estrategias competitivas mediante modelos de Teoría de Juegos, evaluando alternativas óptimas (puras/mixtas) con métodos matriciales y gráficos para mejorar la toma de decisiones en contextos de rivalidad de mercado y optimización de utilidades.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+% 0. Introducción
+%------------------------------------------------
+\section{Introducción a la Teoría de Juegos}
+
+\subsection{Motivación}
+\begin{frame}{¿Por qué Teoría de Juegos?}
+\begin{itemize}[<+->]  % \pause solo dentro de la lista
+  \item Modela decisiones estratégicas entre agentes racionales en conflicto.
+  \item Aplicaciones: economía, política, biología evolutiva, ciberseguridad.
+  \item Herramienta clave para anticipar comportamientos y diseñar mecanismos.
+\end{itemize}
+\end{frame}
+
+\subsection{Supuestos básicos}
+\begin{frame}{Supuestos del modelo clásico}
+\begin{itemize}[<+->]
+  \item Jugadores \textbf{racionales} cuyo objetivo es maximizar su utilidad esperada.
+  \item Información completa de las reglas del juego y de los pagos.
+  \item Los pagos se representan mediante una \textbf{matriz de recompensas} (juegos finitos).
+  \item En juegos de \emph{suma cero}: la ganancia de un jugador es la pérdida del otro.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+% 1. Juegos de suma cero elementales
+%------------------------------------------------
+\section{Juegos de Suma Cero Elementales}
+
+\subsection{Ejemplo 1: Pares y Nones}
+\begin{frame}{Juego de Pares y Nones}
+\begin{columns}
+\begin{column}{0.55\textwidth}
+\begin{itemize}[<+->]
+  \item Cada jugador muestra \{1,2\} dedos.
+  \item Suma par $\Rightarrow$ gana J1, suma impar $\Rightarrow$ gana J2.
+\end{itemize}
+\end{column}
+\begin{column}{0.4\textwidth}
+\[
+\begin{array}{c|cc}
+      & \text{J2:1} & \text{J2:2}\\\hline
+\text{J1:1} &  1 & -1\\
+\text{J1:2} & -1 &  1
+\end{array}
+\]
+\end{column}
+\end{columns}
+\vspace{0.2cm}
+Este juego \textbf{no} tiene punto de silla en estrategias puras; se necesitarán estrategias mixtas.
+\end{frame}
+
+\subsection{Estratégias dominadas}
+\begin{frame}{Eliminación de estrategias dominadas}
+\begin{itemize}[<+->]
+  \item Una estrategia está \emph{estrictamente dominada} si existe otra que arroja un pago mayor en \textbf{todas} las respuestas del rival.
+  \item Eliminar las dominadas reduce el tamaño de la matriz sin alterar los equilibrios.
+  \item En juegos $2\times2$ como Pares y Nones no hay dominación estricta: se conserva la matriz.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+% 2. Criterio minimax y punto de silla
+%------------------------------------------------
+\section{Criterio Minimax y Punto de Silla}
+
+\subsection{Definición}
+\begin{frame}{Maximin, Minimax y Punto de Silla}
+\begin{itemize}[<+->]
+  \item \textbf{Valor maximin}: utilidad máxima del jugador al asegurar la peor respuesta rival.
+  \item \textbf{Valor minimax}: peor utilidad que el rival puede forzar al jugador.
+  \item Cuando ambos valores coinciden existe un \textbf{punto de silla} y una estrategia pura óptima.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+% 3. Estrategias mixtas (combinadas)
+%------------------------------------------------
+\section{Estrategias Mixtas y Combinadas}
+
+\subsection{Definición y Teorema Minimax}
+\begin{frame}{Cuando no hay punto de silla}
+\begin{itemize}[<+->]
+  \item Se permite aleatorizar: cada estrategia pura se juega con una probabilidad.
+  \item Una \textbf{estrategia mixta} es una combinación convexa de estrategias puras.
+  \item Teorema de von Neumann (1928)\,: en juegos finitos de suma cero
+        \[
+          \max_{x}\,\min_{y} x^\top A\,y \;=\;
+          \min_{y}\,\max_{x} x^\top A\,y.
+        \]
+  \item Garantiza la existencia de un valor del juego y estrategias mixtas óptimas.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+% 4. Métodos de solución
+%------------------------------------------------
+\section{Métodos de Solución}
+
+%------------------------------------------------
+% 4.1  Metodología gráfica (2 × n)
+%------------------------------------------------
+\subsection{Metodología gráfica (2 × n)}
+\begin{frame}{Solución gráfica de juegos 2 × n}
+\small
+Sea \(x_1=\Pr(A_1)\).  
+La ganancia esperada del jugador A contra la estrategia pura \(B_j\) es  
+\[
+E_j(x_1)\;=\;(a_{1j}-a_{2j})\,x_1\;+\;a_{2j},
+\qquad j=1,\dots,n.
+\]
+\begin{enumerate}[<+->]
+  \item Dibujar las \(n\) rectas \(E_j(x_1)\) en \(0\le x_1\le1\).
+  \item Construir la \textbf{envolvente inferior}.  
+        Representa la “peor ganancia” de A.
+  \item El valor del juego \(v\) es el \textbf{máximo} de esa envolvente.  
+        El \(x_1^\star\) donde ocurre es la mezcla óptima de A.
+  \item Las rectas que forman la arista máxima indican las estrategias puras
+        que B deberá mezclar.
+\end{enumerate}
+\end{frame}
+
+%------------------------------------------------
+% 4.2  Ejemplo gráfico 2 × 4
+%------------------------------------------------
+\subsection{Ejemplo 2 × 4}
+\begin{frame}{Juego 2 × 4: Matriz y rectas}
+\[
+\begin{array}{c|cccc}
+      & B_1 & B_2 & B_3 & B_4\\\hline
+A_1 & 2 & 2 & 3 & -1\\
+A_2 & 4 & 3 & 2 &  6
+\end{array}
+\]
+\medskip
+Pagos esperados de A frente a cada \(B_j\):
+\[
+\begin{array}{c|c}
+B_j & E_j(x_1)\\\hline
+1 & -2x_1+4\\
+2 & -x_1+3\\
+3 & \phantom{-}x_1+2\\
+4 & -7x_1+6
+\end{array}
+\]
+\end{frame}
+
+%------------------------------------------------
+% 4.3  Gráfica TikZ
+%------------------------------------------------
+\begin{frame}{Gráfica de la envolvente inferior}
+\centering
+\begin{tikzpicture}
+  \begin{axis}[
+        width=0.8\linewidth,
+        height=0.55\linewidth,
+        domain=0:1,
+        xlabel={$x_1=\Pr(A_1)$},
+        ylabel={Pago esperado de $A$},
+        axis lines=left,
+        ymin=0,ymax=4,
+        samples=2,
+        legend pos=south west,
+        legend style={nodes={scale=0.8, transform shape}}
+      ]
+    %--- Rectas individuales -------------------------------------------------
+    \addplot[thin,color=red]        {-2*x + 4};  \addlegendentry{$B_1$}
+    \addplot[thin,color=blue]       {-1*x + 3};  \addlegendentry{$B_2$}
+    \addplot[thin,color=teal!60!black] { x + 2};    \addlegendentry{$B_3$}
+    \addplot[thin,color=orange]     {-7*x + 6};  \addlegendentry{$B_4$}
+
+    %--- Punto óptimo --------------------------------------------------------
+    \addplot[black,mark=*] coordinates {(0.5,2.5)};
+    \node[above right] at (axis cs:0.5,2.5) {$\displaystyle\bigl(x_1^\star,\;v\bigr)=\Bigl(\tfrac12,\tfrac52\Bigr)$};
+
+    %--- Arista de la envolvente (colores a juego) ---------------------------
+    \addplot[very thick,color=teal!60!black,domain=0:0.5] { x + 2};
+    \addplot[very thick,color=orange,domain=0.5:0.9] {-7*x + 6};
+  \end{axis}
+\end{tikzpicture}
+\vspace{0.3em}
+\footnotesize
+La envolvente inferior (trazo grueso) se maximiza en \(x_1^\star=0.5\).  
+Así, \(v=\dfrac52\).  
+B mezcla \(B_3\) y \(B_4\) con \(y_3=\frac78,\;y_4=\frac18\).
+\end{frame}
+
+
+\subsection{(Aviso) Relación con PL}
+\begin{frame}{Antes de pasar a Programación Lineal…}
+\begin{itemize}[<+->]
+  \item Cualquier juego de suma cero \(m\times n\) puede transformarse en
+        un programa lineal (PL).  
+  \item Dualidad de la PL  \(\Longleftrightarrow\)  principio minimax.  
+  \item Ventaja: algoritmos LP → solución numérica rápida para matrices grandes.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+% 4.y  Formulación general como LP
+%------------------------------------------------
+\subsection{Programación lineal (formulación general)}
+\begin{frame}{Juego de suma cero \(\Longleftrightarrow\) Programa lineal}
+\small
+\textbf{Jugador A} (maximin)\,:  
+\[
+\max_{x_i}\;\min_j\Bigl\{\textstyle\sum_{i=1}^{m}a_{ij}x_i\Bigr\}
+\quad\Longrightarrow\quad
+\begin{aligned}
+  \max_{x,v}\;& v\\
+  \text{s.a. }& \sum_{i=1}^{m}a_{ij}x_i \;\;\ge v, && j=1,\dots,n \\[2pt]
+              & \sum_{i=1}^{m}x_i = 1,\;  x_i\ge0, && i=1,\dots,m\\
+              & v\;\hbox{ libre}
+\end{aligned}
+\]
+
+\textbf{Jugador B} (minimax)\,:  
+\[
+\min_{y_j}\;\max_i\Bigl\{\textstyle\sum_{j=1}^{n}a_{ij}y_j\Bigr\}
+\quad\Longrightarrow\quad
+\begin{aligned}
+  \min_{y,v}\;& v\\
+  \text{s.a. }& \sum_{j=1}^{n}a_{ij}y_j \;\;\le v, && i=1,\dots,m \\[2pt]
+              & \sum_{j=1}^{n}y_j = 1,\;  y_j\ge0, && j=1,\dots,n\\
+              & v\;\hbox{ libre}
+\end{aligned}
+\]
+
+\end{frame}
+\begin{frame}{Formulación PL (jugador A)}
+\small
+\[
+\boxed{
+\begin{aligned}
+  \max_{x,v}\ & v \\[-1pt]
+  \text{s.a. }& A^\top x \;\ge v\mathbf{1} \\[-1pt]
+              & \mathbf{1}^\top x = 1,\; x\ge0
+\end{aligned}}
+\qquad\Longleftrightarrow\qquad
+\boxed{
+\begin{aligned}
+  \min_{y,v}\ & v \\[-1pt]
+  \text{s.a. }& A y \;\le v\mathbf{1} \\[-1pt]
+              & \mathbf{1}^\top y = 1,\; y\ge0
+\end{aligned}}
+\]
+\vspace{-0.4em}
+\begin{center}\scriptsize
+(El modelo de la derecha es el dual: jugador B.)
+\end{center}
+\begin{itemize}[<+->]
+  \item Los dos modelos maximizan/minimizan la \emph{misma} variable \(v\): ¡son duales!
+  \item Resolver uno da automáticamente la solución óptima del otro (Teorema de dualidad).
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+% 4.z  Ejemplo 2 × 4 resumido
+%------------------------------------------------
+\begin{frame}{Ejemplo rápido \(2\times4\) vía PL}
+\small
+\[
+A=\begin{bmatrix}
+2 & 2 & 3 & -1\\
+4 & 3 & 2 &  6
+\end{bmatrix},
+\quad x_1=\Pr(A_1),\;x_2=1-x_1.
+\]
+
+\begin{columns}[T]
+\begin{column}{0.52\linewidth}
+\textbf{Modelo A}
+{\footnotesize
+\[
+\renewcommand{\arraystretch}{1.1}
+\begin{array}{rcr}
+-2x_1+4 &\ge& v\\
+- x_1+3 &\ge& v\\
+  x_1+2 &\ge& v\\
+-7x_1+6 &\ge& v\\
+0\le x_1\le1
+\end{array}
+\]
+}
+\end{column}
+%
+\begin{column}{0.46\linewidth}
+\textbf{Solución}
+\[
+x_1^\star=\tfrac12,\;
+v=\tfrac52
+\]
+\vspace{-0.4em}
+\[
+y_3=\tfrac78,\;
+y_4=\tfrac18
+\]
+\end{column}
+\end{columns}
+
+\begin{center}\scriptsize
+(A coincide con la gráfica: rectas \(B_3\) y \(B_4\) definen la arista óptima.)
+\end{center}
+\end{frame}
+
+%------------------------------------------------
+% 4.w  Ejemplo 15.4-4  (3 frames)
+%------------------------------------------------
+\subsection{Ejemplo \(3\times3\) vía PL}
+
+%------------------------------------------------
+% F-1  Planteamiento y cotas
+%------------------------------------------------
+\begin{frame}{Planteamiento del juego \(3\times3\)}
+\textbf{Enunciado.}\;
+Resuelva el siguiente juego \(3\times3\) con \emph{programación lineal}.  
+Determine las estrategias mixtas óptimas de ambos jugadores y el valor del juego \(v\).
+
+\[
+\renewcommand{\arraystretch}{1.15}
+\begin{array}{c|ccc|c}
+      &  B_1 &   B_2 &   B_3 & \text{Col.\ máx} \\\hline
+A_1 &   3    &  -1   &  -3   & 3\\
+A_2 &  -2    &   4   &  -1   & 4\\
+A_3 &  -5    &  -6   &   2   &  \mathbf{2}\\\hline
+\text{Fila mín} & -3 & \mathbf{-2} & -6
+\end{array}
+\]
+\begin{itemize}[<+->]
+  \item Cotas iniciales: \(\boxed{-2\le v\le 2}\).
+  \item Resolveremos con programación lineal para hallar \(v\) y las mezclas óptimas.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+% F-2  Programa lineal del jugador A
+%------------------------------------------------
+\begin{frame}{Modelo PL – Jugador A (maximiza)}
+\small
+Variables: \(x_1,x_2,x_3\) (probabilidades de \(A_1,A_2,A_3\)), \(v\) libre.
+\[
+\renewcommand{\arraystretch}{1.15}
+\begin{array}{rcl}
+\max & v & \\ \hline
+v - 3x_1 + 2x_2 + 5x_3 &\le& 0\\
+v +  x_1 - 4x_2 + 6x_3 &\le& 0\\
+v + 3x_1 +  x_2 - 2x_3 &\le& 0\\
+x_1 + x_2 + x_3 &=& 1\\
+x_i &\ge& 0
+\end{array}
+\]
+\begin{block}{Solución óptima (solver)}
+\[
+x^\star=(0.39,\;0.31,\;0.29),\qquad v^\star=-0.91.
+\]
+\end{block}
+\end{frame}
+
+%------------------------------------------------
+% F-3  Programa lineal del jugador B + resultado
+%------------------------------------------------
+\begin{frame}{Modelo PL – Jugador B (dual)}
+\small
+Variables: \(y_1,y_2,y_3\) (probabilidades de \(B_1,B_2,B_3\)), \(v\) libre.
+\[
+\renewcommand{\arraystretch}{1.15}
+\begin{array}{rcl}
+\min & v & \\ \hline
+v - 3y_1 +  y_2 + 3y_3 &\ge& 0\\
+v + 2y_1 - 4y_2 +  y_3 &\ge& 0\\
+v + 5y_1 + 6y_2 - 2y_3 &\ge& 0\\
+y_1 + y_2 + y_3 &=& 1\\
+y_j &\ge& 0
+\end{array}
+\]
+\begin{block}{Solución dual}
+\[
+y^\star=(0.32,\;0.08,\;0.60),\qquad v=-0.91.
+\]
+\end{block}
+
+\begin{center}\scriptsize
+Ambos programas dan el mismo \(v\) ― confirmación de la dualidad y del teorema minimax.
+\end{center}
+\end{frame}
+
+
+%------------------------------------------------
+% 6. Conclusiones
+%------------------------------------------------
+\section{Conclusiones}
+
+\subsection{Resumen de hallazgos}
+\begin{frame}{Conclusiones}
+\begin{itemize}[<+->]
+  \item La teoría de juegos formaliza la toma de decisiones en conflicto.
+  \item Herramientas: dominación, minimax, estrategias mixtas, métodos gráfico y LP.
+  \item Las estrategias mixtas garantizan equilibrio incluso sin punto de silla.
+\end{itemize}
+\end{frame}
+
+\subsection{Preguntas}
+\begin{frame}[plain,c]
+\centering
+\Huge\textbf{¿Preguntas?}
+\end{frame}
+
+\end{document}

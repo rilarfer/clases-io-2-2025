@@ -1,0 +1,218 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage[nosetup]{evan}
+\usetheme{Goddard}
+\hypersetup{colorlinks,allcolors=.,urlcolor=magenta}
+\usepackage[table]{xcolor} % Para definir colores en tablas
+\usepackage{graphicx} % Para redimensionar la tabla
+
+\title{Investigación de Operaciones II}
+\subtitle{Unidad 1: Análisis de Redes}
+\author{Ricardo Jesús Largaespada Fernández}
+\institute{Ingeniería de Sistemas, DACTIC, UNI}
+\date{04 de Marzo, 2025}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Agenda}
+\tableofcontents
+\end{frame}
+
+\section{Sesión 2}
+\begin{frame}
+\frametitle{Sesión 2}
+
+\textbf{Tema}
+\begin{enumerate}
+\item Métodos de la ruta más corta.
+\begin{enumerate}
+\item Algoritmo de Dijkstra.
+\end{enumerate}
+\end{enumerate}
+\textbf{Objetivo}
+\begin{itemize}
+    \item El estudiante aplicará el método de la ruta más corta utilizando el Algoritmo de Dijkstra, mediante la resolución de problemas prácticos con grafos ponderados, para optimizar la selección de trayectorias en redes de transporte y comunicación.
+\end{itemize}
+\end{frame}
+
+% Introducción
+\subsection{Introducción}
+\begin{frame}{Introducción}
+    \begin{itemize}
+        \item El problema de la ruta más corta busca determinar el camino más eficiente entre dos nodos en un grafo.
+        \item Se aplica en redes de transporte, telecomunicaciones, planificación de rutas, entre otros.
+        \item Uno de los algoritmos más usados para resolver este problema es el \textbf{algoritmo de Dijkstra}.
+    \end{itemize}
+\end{frame}
+
+\subsection{Definición del Problema}
+% Definición del Problema
+\begin{frame}{Definición del Problema}
+    \begin{itemize}
+        \item Se tiene un grafo dirigido o no dirigido $G=(V,E)$ con pesos no negativos en sus aristas.
+        \item El objetivo es encontrar la ruta más corta desde un nodo origen $s$ hasta todos los demás nodos.
+        \item Se puede representar como un problema de optimización en grafos.
+    \end{itemize}
+\end{frame}
+
+% Algoritmo de Dijkstra
+\subsection{Algoritmo de Dijkstra}
+\begin{frame}{Algoritmo de Dijkstra}
+    Sea \( u_i \) la distancia más corta del nodo origen \( 1 \) al nodo \( i \), y defina \( d_{ij} (\geq 0) \) como la longitud del arco \( (i,j) \). El algoritmo define la etiqueta para un nodo \( j \) que sigue inmediatamente como:
+    
+    \[
+    [u_j, i] = [u_i + d_{ij}, i], \quad d_{ij} \geq 0
+    \]
+
+    \textbf{Paso 0:} 
+    \begin{itemize}
+        \item Etiquete el nodo de origen (nodo 1) con la etiqueta \textbf{permanente} \( [0, -] \).
+        \item Establezca \( i = 1 \).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Algoritmo de Dijkstra}
+    \textbf{Paso general \( i \):}
+    \begin{enumerate}
+        \item[(a)] Calcule las etiquetas \textbf{temporales} \( [u_i + d_{ij}, i] \) para cada nodo \( j \) con \( d_{ij} > 0 \), siempre que \( j \) no esté etiquetado permanentemente. Si el nodo \( j \) ya tiene una etiqueta temporal existente \( [u_j, k] \) y si \( u_i + d_{ij} < u_j \), reemplace \( [u_j, k] \) con \( [u_i + d_{ij}, i] \).
+        \item[(b)] Si \textbf{todos} los nodos tienen etiquetas \textbf{permanentes}, \textbf{deténgase}. De lo contrario, seleccione la etiqueta \( [u_r, s] \) con la menor distancia \( u_r \) entre las etiquetas \textbf{temporales} y continúe con \( i = r \).
+    \end{enumerate}
+\end{frame}
+
+% Ejemplo Práctico
+\subsection{Ejemplo}
+% Primer frame con el primer grafo
+\begin{frame}{Ruta más corta - Red (a)}
+    \begin{center}
+    \begin{tikzpicture}[scale=1, transform shape]
+    % Definir un estilo para los nodos de los vértices
+    \tikzstyle{vertex}=[circle, draw, minimum size=10mm]
+
+    % Nodos (vértices)
+    \node[vertex] (1) at (0,2) {1};
+    \node[vertex] (2) at (2,4) {2};
+    \node[vertex] (3) at (2,0) {3};
+    \node[vertex] (4) at (4,2) {4};
+    \node[vertex] (5) at (6,4) {5};
+    \node[vertex] (6) at (6,0) {6};
+    \node[vertex] (7) at (8,2) {7};
+
+    % Aristas dirigidas con pesos
+    \draw[->] (1) -- (2) node[midway, above left] {4};
+    \draw[->] (1) -- (3) node[midway, below left] {5};
+    \draw[->] (2) -- (3) node[midway, left] {6};
+    \draw[->] (2) -- (4) node[midway, left] {3};
+    \draw[->] (2) -- (5) node[midway, above] {10};
+    \draw[->] (3) -- (6) node[midway, below] {9};
+    \draw[->, bend left] (4)  to node[midway, above] {6} (5);
+    \draw[->, bend left] (5) to node[midway, above] {4} (4);
+    \draw[->] (4) -- (6) node[midway, below] {3};
+\draw[->, bend left] (3) to node[midway, above] {3} (4);
+\draw[->, bend left] (4) to node[midway, below] {4} (3);
+    \draw[->, bend left] (5) to node[midway, right] {3} (6);
+    \draw[->] (5) -- (7) node[midway, above right] {2};
+    \draw[->] (6) -- (7) node[midway, below right] {2};
+    \draw[->] (6) -- (5) node[midway, below right] {2};
+\end{tikzpicture}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Ruta más corta - Red (b)}
+    \begin{center}
+\begin{tikzpicture}[scale=1, transform shape]
+    % Define un estilo para los nodos de los vértices
+    \tikzstyle{vertex}=[circle, draw, minimum size=10mm]
+
+    % Nodos (vértices)
+    \node[vertex] (O) at (0,2) {O};
+    \node[vertex] (A) at (2,4) {A};
+    \node[vertex] (B) at (2,2) {B};
+    \node[vertex] (C) at (2,0) {C};
+    \node[vertex] (D) at (4,3) {D};
+    \node[vertex] (E) at (4,1) {E};
+    \node[vertex] (T) at (6,2) {T};
+
+    % Aristas con pesos
+    \draw (O) -- (A) node[midway, above left] {4};
+    \draw (O) -- (B) node[midway, above] {6};
+    \draw (O) -- (C) node[midway, below left] {5};
+    \draw (A) -- (B) node[midway, left] {1};
+    \draw (A) -- (D) node[midway, above] {7};
+    \draw (B) -- (C) node[midway, right] {2};
+    \draw (B) -- (D) node[midway, above] {5};
+    \draw (B) -- (E) node[midway, below] {4};
+    \draw (C) -- (E) node[midway, below] {5};
+    \draw (D) -- (T) node[midway, above right] {6};
+    \draw (D) -- (E) node[midway, left] {1};
+    \draw (E) -- (T) node[midway, below right] {8};
+\end{tikzpicture}
+    \end{center}
+\end{frame}
+
+% Segundo frame con el segundo grafo
+\begin{frame}{Ruta más corta - Red (c)}
+    \begin{center}
+\begin{tikzpicture}[scale=1, transform shape]
+    % Define un estilo para los nodos de los vértices
+    \tikzstyle{vertex}=[circle, draw, minimum size=10mm]
+
+    % Nodos (vértices)
+    \node[vertex] (O) at (0,2) {O};
+    \node[vertex] (A) at (2,4) {A};
+    \node[vertex] (B) at (2,0) {B};
+    \node[vertex] (C) at (2,2) {C};
+    \node[vertex] (D) at (4,4) {D};
+    \node[vertex] (E) at (4,0) {E};
+    \node[vertex] (F) at (4,2) {F};
+    \node[vertex] (G) at (6,4) {G};
+    \node[vertex] (H) at (6,2) {H};
+    \node[vertex] (I) at (6,0) {I};
+    \node[vertex] (T) at (8,2) {T};
+
+    % Aristas con pesos
+    \draw (O) -- (A) node[midway, above left] {4};
+    \draw (O) -- (B) node[midway, below left] {3};
+    \draw (O) -- (C) node[midway, left] {6};
+    \draw (A) -- (D) node[midway, above] {3};
+    \draw (B) -- (E) node[midway, below] {6};
+    \draw (C) -- (D) node[midway, above] {5};
+    \draw (C) -- (E) node[midway, below] {5};
+    \draw (C) -- (F) node[midway, left] {2};
+    \draw (D) -- (G) node[midway, above] {4};
+    \draw (E) -- (F) node[midway, above] {1};
+    \draw (F) -- (H) node[midway, above] {2};
+    \draw (G) -- (T) node[midway, above right] {7};
+    \draw (H) -- (T) node[midway, right] {8};
+    \draw (I) -- (T) node[midway, below right] {4};
+    \draw (F) -- (G) node[midway, above] {2};
+    \draw (F) -- (I) node[midway, below] {5};
+    \draw (H) -- (I) node[midway, right] {3};
+\end{tikzpicture}
+    \end{center}
+\end{frame}
+
+
+% Conclusión
+\subsection{Conclusión}
+\begin{frame}{Conclusión}
+    \begin{itemize}
+        \item El algoritmo de Dijkstra es una herramienta eficiente para encontrar rutas óptimas en grafos ponderados con pesos no negativos.
+        \item Su implementación es fundamental en diversas aplicaciones del mundo real.
+        \item Comprender su funcionamiento permite mejorar la toma de decisiones en problemas de optimización y redes.
+    \end{itemize}
+\end{frame}
+
+% Fin de la presentación
+\begin{frame}
+    \centering
+    \Huge{\textbf{Gracias!}} \\[1cm]
+    \large ¿Preguntas?
+\end{frame}
+
+\end{document}

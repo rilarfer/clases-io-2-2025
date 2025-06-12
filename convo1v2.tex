@@ -1,0 +1,194 @@
+\documentclass[11pt,paper=a4,answers, addpoints]{exam}
+\usepackage{graphicx,lastpage,comment}
+\usepackage{upgreek}
+\usepackage{censor}
+\censorruledepth=-.2ex
+\censorruleheight=.1ex
+\hyphenpenalty 10000
+\usepackage[paperheight=10.5in,paperwidth=8.27in,bindingoffset=0in,left=0.8in,right=1in, top=1.3in,bottom=1in,headsep=.5\baselineskip]{geometry}
+\flushbottom
+\usepackage[normalem]{ulem}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\renewcommand\ULthickness{2pt} %%---> For changing thickness of underline
+\setlength\ULdepth{1.5ex}%\maxdimen ---> For changing depth of underline
+\renewcommand{\baselinestretch}{1}
+\pagestyle{empty}
+
+\pagestyle{headandfoot}
+\headrule
+\newcommand{\continuedmessage}{%
+  \ifcontinuation{\footnotesize Pregunta \ContinuedQuestion\ continua\ldots}{}%
+}
+\runningheader{\footnotesize Programa de Ingeniería de Sistemas}
+{\footnotesize Matemática I}
+{\footnotesize Página \thepage\ de \numpages}
+\footrule
+\footer{\footnotesize }
+{}
+{\ifincomplete{\footnotesize Pregunta \IncompleteQuestion\ continua en la siguiente página \ldots}
+  {\iflastpage{\footnotesize Final del examen}{\footnotesize Por favor vea la siguiente página\ldots}}}
+\usepackage{amsfonts,amsmath}
+\usepackage{cleveref}
+\crefname{figure}{figure}{figures}
+\crefname{question}{question}{questions}
+\renewcommand\thequestion{\arabic{question}}
+\renewcommand{\questionlabel}{\thequestion)}
+\renewcommand{\questionshook}{%
+  \setlength{\leftmargin}{0pt}%
+  \setlength{\labelwidth}{-\labelsep}%
+}
+\usepackage{amsmath}
+\decimalpoint
+\nopointsinmargin
+\pointpoints{Punto}{Punto}
+
+\marginpointname{\points}
+\pointformat{\boldmath\themarginpoints}
+\bracketedpoints
+\usepackage{quoting,xparse}
+
+\pointpoints{punto}{puntos}
+\bonuspointpoints{punto extra}{puntos extra}
+ 
+\totalformat{Pregunta \thequestion: \totalpoints puntos}
+ 
+\hqword{Pregunta}
+\hpgword{Página}
+\hpword{Puntos}
+\hsword{Puntos obtenidos}
+\htword{Total}
+\usepackage{circuitikz}
+\usepackage{color}
+\usepackage{pgfplots,graphicx}
+
+\usepackage{ mathrsfs}
+\newcommand{\Laplace}[1]{\ensuremath{\mathscr{L}{\left\lbrace #1\right\rbrace}}}
+\newcommand{\InvLap}[1]{\ensuremath{\mathscr{L}^{-1}{\left\lbrace #1\right\rbrace}}}
+
+\usepackage{background}
+\usepackage{lipsum} % Para texto de ejemplo, puedes eliminarlo
+
+% Configuración del fondo
+\backgroundsetup{
+  scale=1,  % Escala del PDF
+  color=black,  % Color (puedes usar transparente si es un PDF a color)
+  opacity=1,  % Opacidad (1 es opaco, 0 es transparente)
+  angle=0,  % Ángulo del PDF
+  pages=all,  % Aplicar a todas las páginas
+  position=current page.south west,  % Posición del PDF
+  nodeanchor=south west,
+  vshift=0mm,  % Desplazamiento vertical
+  hshift=0mm,  % Desplazamiento horizontal
+  contents={\includegraphics[width=\paperwidth,height=\paperheight]{fondo.pdf}} % PDF de fondo
+}
+
+\begin{document}
+%\printanswers
+\noprintanswers
+%\shadedsolutions
+%\fillwithdottedlines
+\shorthandoff{<>}
+\thispagestyle{empty}
+\begin{center}
+    \textit{\textbf{Examen de Primera Convocatoria}}
+\end{center}
+\noindent
+\vspace{-.1cm}
+\begin{minipage}[t]{.6\textwidth}%
+  {\bfseries Nombres}: \makebox[.75\textwidth]{\hrulefill} \par
+  {\bfseries Apellidos}: \makebox[.75\textwidth]{\hrulefill} \par
+  {\bfseries Docente}: Ricardo Largaespada
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{.4\textwidth}%
+  {\bfseries Curso}: Investigación de Operaciones I \par
+  {\bfseries Fecha}: 10 de diciembre 2024 \par
+  {\bfseries Grupo:} 
+  \vspace{1ex}
+\end{minipage}    \hfill
+  \rule{\textwidth}{1pt}
+\begin{comment}
+\noindent\underline{\sc Instrucciones a estudiantes}
+\vspace{5mm}
+\begin{enumerate}
+\item Este examen contiene {\bf CINCO (5)} preguntas.
+\item Puedes utilizar calculadora. Sin embargo, debes de escribir sistemáticamente los pasos del trabajo.
+\item Entrega todo el trabajo adicional en páginas rotuladas.
+\end{enumerate}
+
+\begin{center}
+\textbf{Tabla (para uso EXCLUSIVO del profesor)}\\
+\addpoints
+\combinedgradetable[v][questions]
+\end{center}
+	
+\noindent
+\rule[1ex]{\textwidth}{1pt}
+\end{comment}
+
+\begin{questions}
+
+\titledquestion{Dualidad}[10]
+Una empresa produce dos productos, \(P_1\) y \(P_2\), utilizando tres recursos limitados: Mano de obra, Materiales y Tiempo de máquina. La función objetivo es maximizar las ganancias, donde las ganancias unitarias son: $P_1$: 40 unidades monetarias, $P_2$: 30 unidades monetarias.
+
+Las restricciones de recursos son:
+\[
+2P_1 + P_2 \leq 40 \quad \text{(Mano de obra)},
+\]
+\[
+P_1 + P_2 \leq 30 \quad \text{(Materiales)},
+\]
+\[
+P_1 + 3P_2 \leq 60 \quad \text{(Tiempo de máquina)}.
+\]
+
+\begin{parts}
+    \part Determina la solución óptima y el valor de la función objetivo.
+    \part Calcula los precios sombra de cada recurso e interpreta su significado.
+\end{parts}
+
+\titledquestion{Transporte (Balanceado}[10]
+
+Una empresa necesita transportar productos desde tres plantas \(A, B, C\) hasta tres almacenes \(X, Y, Z\). Las capacidades de oferta y demanda están balanceadas. Los costos unitarios de transporte (en unidades monetarias) son los siguientes:
+
+\[
+\begin{array}{c|c c c c}
+ & X & Y & Z & \text{Oferta} \\
+\hline
+A & 4 & 8 & 8 & 20 \\
+B & 6 & 4 & 5 & 30 \\
+C & 7 & 6 & 3 & 25 \\
+\hline
+\text{Demanda} & 15 & 35 & 25 &
+\end{array}
+\]
+
+\begin{parts}
+    \part Encuentra una solución inicial usando el método de la Esquina Noroeste.
+    \part Encuentra la solución óptima usando el método de transporte.
+\end{parts}
+
+\titledquestion{Asignación}[10]
+
+Una empresa asigna cuatro empleados \(A, B, C, D\) a cuatro tareas \(1, 2, 3, 4\). Los costos asociados (en unidades monetarias) de asignar cada empleado a una tarea están dados por la siguiente matriz:
+
+\[
+\begin{array}{c|c c c c}
+ & \text{Tarea 1} & \text{Tarea 2} & \text{Tarea 3} & \text{Tarea 4} \\
+\hline
+A & 8 & 6 & 7 & 11 \\
+B & 8 & 3 & 4 & 6 \\
+C & 8 & 9 & 8 & 5 \\
+D & 9 & 4 & 6 & 4
+\end{array}
+\]
+
+\begin{parts}
+    \part Usa el método de asignación (algoritmo de Húngaro) y encuentra la asignación óptima.
+    \part Indica el costo mínimo total.
+\end{parts}
+
+\end{questions}
+
+\end{document}

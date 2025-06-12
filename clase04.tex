@@ -1,0 +1,145 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetheme{Goddard}
+\hypersetup{colorlinks,allcolors=.,urlcolor=magenta}
+
+\title{Investigación de Operaciones II}
+\subtitle{Unidad 1: Análisis de Redes}
+\author{Ricardo Jesús Largaespada Fernández}
+\institute{Ingeniería de Sistemas, DACTIC, UNI}
+\date{11 de Marzo, 2025}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}{Agenda}
+    \tableofcontents
+\end{frame}
+
+\section{Sesión 4}
+\begin{frame}{Sesión 4}
+
+\textbf{Tema}
+\begin{enumerate}
+    \item Árbol de Expansión Mínima (MST)
+\end{enumerate}
+
+\textbf{Objetivo}
+\begin{itemize}
+    \item El estudiante aplicará los algoritmos de Kruskal y Prim para determinar el Árbol de Expansión Mínima de un grafo ponderado, optimizando la conexión en redes con costo mínimo.
+\end{itemize}
+
+\end{frame}
+
+\subsection{Conceptos Básicos}
+
+\begin{frame}{Árbol de Expansión Mínima (MST)}
+
+\textbf{Definición:}  
+Es un subconjunto de las aristas de un grafo conexo, ponderado y no dirigido, que conecta todos los vértices sin ciclos y con el mínimo peso total posible.
+
+\textbf{Características:}
+\begin{itemize}
+    \item El MST tiene exactamente $n-1$ aristas (donde $n$ es el número de vértices).
+    \item No existen ciclos en el MST.
+    \item Puede no ser único si varias aristas tienen el mismo peso.
+\end{itemize}
+
+\end{frame}
+
+\subsection{Algoritmo de Kruskal}
+
+\begin{frame}{Algoritmo de Kruskal}
+
+\textbf{Procedimiento:}
+\begin{enumerate}
+    \item Ordenar todas las aristas del grafo en orden ascendente según su peso.
+    \item Añadir la arista de menor peso que no forme un ciclo.
+    \item Repetir hasta tener $n-1$ aristas.
+\end{enumerate}
+
+\textbf{Complejidad:}  
+$O(E \log E)$ siendo $E$ la cantidad de aristas del grafo.
+
+\end{frame}
+
+\begin{frame}{Ejemplo (Kruskal)}
+\centering
+\includegraphics[scale=1]{}
+\vspace{0.3cm}
+
+{\small Selección en orden: $AB(1)\rightarrow CD(2)\rightarrow BC(3)$\\
+Peso total: $1+2+3=6$}
+
+\end{frame}
+
+\subsection{Algoritmo de Prim}
+
+\begin{frame}{Algoritmo de Prim}
+
+\textbf{Procedimiento:}
+\begin{enumerate}
+    \item Seleccionar un vértice inicial arbitrario.
+    \item Añadir la arista más corta que conecte un vértice del árbol actual con un nuevo vértice externo.
+    \item Repetir hasta que todos los vértices estén en el árbol.
+\end{enumerate}
+
+\textbf{Complejidad:} $O(E \log V)$ usando estructuras eficientes (heap).
+
+\end{frame}
+
+\begin{frame}{Ejemplo (Prim)}
+
+\centering
+\begin{tikzpicture}[node distance=2cm, scale=0.8, every node/.style={scale=0.8}]
+    \node[circle, draw] (A) at (0,3) {A};
+    \node[circle, draw] (B) at (2,5) {B};
+    \node[circle, draw] (C) at (4,3) {C};
+    \node[circle, draw] (D) at (2,1) {D};
+
+    \draw (A)--(B) node[midway,left] {1};
+    \draw (B)--(C) node[midway,right] {3};
+    \draw (C)--(D) node[midway,right] {2};
+    \draw (D)--(A) node[midway,left] {4};
+    \draw (A)--(C) node[midway,below] {5};
+    \draw (B)--(D) node[midway,right] {6};
+\end{tikzpicture}
+
+\vspace{0.3cm}
+
+{\small Comenzando en A:\\
+$AB(1)\rightarrow BC(3)\rightarrow CD(2)$\\
+Peso total: $1+3+2=6$}
+
+\end{frame}
+
+\subsection{Aplicaciones}
+
+\begin{frame}{Aplicaciones prácticas del MST}
+
+\begin{itemize}
+    \item Diseño de redes de telecomunicaciones con costo mínimo.
+    \item Construcción de caminos o carreteras de mínimo costo que conecten puntos específicos.
+    \item Distribución eléctrica eficiente en una red de ciudades.
+    \item Optimización logística y distribución de mercancía.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Conclusión}
+
+\begin{itemize}
+    \item Los algoritmos de Kruskal y Prim permiten determinar eficazmente el Árbol de Expansión Mínima.
+    \item Se utilizan comúnmente para optimizar costos en diferentes tipos de redes físicas y lógicas.
+    \item Elegir entre ambos depende principalmente del tipo de grafo y estructura de datos utilizada.
+\end{itemize}
+
+\end{frame}
+
+\end{document}
